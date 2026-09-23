@@ -16,7 +16,7 @@ const transformHomestay = (homestay: Homestay): Omit<ListingCardProps, 'isSaved'
 	type: 'homestay' as const,
 	title: homestay.title,
 	image: homestay.images[0] || '',
-	location: homestay.location,
+	location: `${homestay.location}, ${homestay.district}`,
 	rating: homestay.rating,
 	reviewCount: homestay.reviewCount,
 	price: homestay.price,
@@ -30,6 +30,7 @@ const localHomestayGuides = [
 		description: 'Read about staying on a phumdi, travelling by boat, and experiencing life around the Jewel of Manipur.',
 		image: 'https://i0.wp.com/buoyantlifestyles.com/wp-content/uploads/2025/05/IMG_6469-scaled-e1748024394225.jpeg?resize=960%2C1002&ssl=1',
 		url: 'https://buoyantlifestyles.com/exploring-loktak-lake-in-manipur-from-a-floating-homestay',
+		mapUrl: 'https://www.google.com/maps/search/?api=1&query=Maipakchao+Homestay+Moirang+Manipur',
 	},
 	{
 		title: 'Manipur Homestay Directory',
@@ -37,6 +38,7 @@ const localHomestayGuides = [
 		description: 'Browse an external collection of homestay options and direct booking information for a Manipur trip.',
 		image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800&h=600&fit=crop',
 		url: 'https://bookmyhomestay.com/page/manipur',
+		mapUrl: 'https://www.google.com/maps/search/?api=1&query=homestays+in+Manipur',
 	},
 	{
 		title: 'Top Homestays in Imphal',
@@ -44,8 +46,14 @@ const localHomestayGuides = [
 		description: 'Compare traveller-picked stays in Imphal, including local homes, gardens, amenities, and access to the city.',
 		image: 'https://wanderon-images.gumlet.io/blogs/new/2024/06/homestays-in-imphal.jpg?auto=compress%2Cformat&w=800',
 		url: 'https://wanderon.in/blogs/homestays-in-imphal',
+		mapUrl: 'https://www.google.com/maps/search/?api=1&query=homestays+in+Imphal+Manipur',
 	},
 ];
+
+const getGoogleMapsSearchUrl = (district: string) => {
+	const searchArea = district && district !== 'All Districts' ? `${district}, Manipur` : 'Manipur';
+	return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`homestays in ${searchArea}`)}`;
+};
 
 /**
  * Homestays page component for browsing homestay listings
@@ -91,6 +99,7 @@ export const Homestays = ({
 
 	// Use external or internal filters
 	const filters = externalFilters || internalFilters;
+	const selectedDistrict = filters.district;
 	const handleFilterChange = onFilterChange || setInternalFilters;
 	const handleClearFilters = onClearFilters || (() => setInternalFilters({
 		...defaultFilterState,
@@ -111,6 +120,20 @@ export const Homestays = ({
 									{loading ? 'Loading...' : `${totalCount} authentic Manipuri homestays`}
 							</p>
 						</div>
+						<Button
+							as="a"
+							href={getGoogleMapsSearchUrl(selectedDistrict)}
+							target="_blank"
+							rel="noreferrer"
+							style="outline"
+							size="sm"
+							className="w-fit"
+						>
+							<Icon name="location_on" size="sm" />
+							{selectedDistrict && selectedDistrict !== 'All Districts'
+								? `Find stays in ${selectedDistrict}`
+								: 'Search Manipur homestays'}
+						</Button>
 
 						{/* Sort & Filter Controls */}
 						<div className="flex items-center gap-3">
@@ -251,18 +274,16 @@ export const Homestays = ({
 									<p className="text-sm text-primary font-medium">{guide.location}</p>
 									<h3 className="card-title text-lg">{guide.title}</h3>
 									<p className="text-sm text-base-content/70">{guide.description}</p>
-									<Button
-										as="a"
-										href={guide.url}
-										target="_blank"
-										rel="noreferrer"
-										style="outline"
-										size="sm"
-										className="mt-2 w-fit"
-									>
-										<Icon name="open_in_new" size="sm" />
-										View guide
-									</Button>
+									<div className="flex flex-wrap gap-2 mt-2">
+										<Button as="a" href={guide.url} target="_blank" rel="noreferrer" style="outline" size="sm">
+											<Icon name="open_in_new" size="sm" />
+											View guide
+										</Button>
+										<Button as="a" href={guide.mapUrl} target="_blank" rel="noreferrer" style="ghost" size="sm">
+											<Icon name="map" size="sm" />
+											Google Maps
+										</Button>
+									</div>
 								</div>
 							</article>
 						))}

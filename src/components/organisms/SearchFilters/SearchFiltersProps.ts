@@ -87,8 +87,6 @@ export const districts = [
 	'Thoubal',
 	'Kangpokpi',
 	'Kakching',
-	'Loktak',
-	'Kangla',
 ];
 
 // Homestay amenities

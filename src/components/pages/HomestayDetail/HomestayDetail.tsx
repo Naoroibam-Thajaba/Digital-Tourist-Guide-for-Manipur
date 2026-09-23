@@ -6,6 +6,7 @@ import { Badge } from '../../atoms/Badge';
 import { Rating } from '../../atoms/Rating';
 import { Price } from '../../atoms/Price';
 import { Skeleton } from '../../atoms/Skeleton';
+import { MapView } from '../../organisms/MapView';
 import type { HomestayDetailProps, HomestayData, DateRange } from './HomestayDetailProps';
 
 // Default homestay data
@@ -14,6 +15,7 @@ const defaultHomestay: HomestayData = {
 	title: 'Lakeside Homestay near Loktak',
 	location: 'Moirang, Manipur',
 	address: 'Near Loktak Lake, Bishnupur District, Manipur 795133',
+	coordinates: { lat: 24.552, lng: 93.786 },
 	description: `Experience the calm beauty of Manipur at our cozy homestay near Loktak Lake. Wake up to soft morning light over the water and spend your days exploring floating islands, forest paths, and nearby villages.
 
 Our homestay offers an authentic glimpse into local life while providing all modern comforts. The rooms feature locally crafted furniture, traditional Manipuri textiles, and artwork by regional artisans.
@@ -311,6 +313,25 @@ export const HomestayDetail = ({
 						</div>
 
 						<div className="divider" />
+
+						{/* Exact homestay location */}
+						{homestay.coordinates && (
+							<div>
+								<h2 className="font-heading font-semibold text-xl mb-4">Where you will stay</h2>
+								<p className="text-sm text-base-content/60 mb-4">{homestay.address || homestay.location}</p>
+								<MapView
+									center={homestay.coordinates}
+									locationName={homestay.location}
+									markers={[{
+										id: homestay.id,
+										lat: homestay.coordinates.lat,
+										lng: homestay.coordinates.lng,
+										title: homestay.title,
+									}]}
+									height="360px"
+								/>
+							</div>
+						)}
 
 						{/* Description */}
 						<div>
