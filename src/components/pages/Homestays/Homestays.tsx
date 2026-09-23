@@ -10,6 +10,7 @@ import { useApi } from '../../../hooks/useApi';
 import { homestaysService } from "../../../services/homestays.service.ts";
 import type { Homestay } from "../../../types/api.types.ts";
 import type { ListingCardProps } from '../../molecules/ListingCard';
+import homestaysMock from '../../../mocks/homestays.json';
 
 /** Transform Homestay to ListingGrid format */
 const transformHomestay = (homestay: Homestay): Omit<ListingCardProps, 'isSaved' | 'onSave'> => ({
@@ -42,6 +43,8 @@ const fallbackHomestays: Omit<ListingCardProps, 'isSaved' | 'onSave'>[] = [
 	},
 ];
 
+const mockHomestays = (homestaysMock.data as Homestay[]).map(transformHomestay);
+
 const localHomestayGuides = [
 	{
 		title: 'Floating Homestay on Loktak Lake',
@@ -60,12 +63,44 @@ const localHomestayGuides = [
 		mapUrl: 'https://www.google.com/maps/search/?api=1&query=homestays+in+Manipur',
 	},
 	{
-		title: 'Top Homestays in Imphal',
-		location: 'Imphal, Manipur',
-		description: 'Compare traveller-picked stays in Imphal, including local homes, gardens, amenities, and access to the city.',
-		image: 'https://wanderon-images.gumlet.io/blogs/new/2024/06/homestays-in-imphal.jpg?auto=compress%2Cformat&w=800',
+		title: 'Iranyai Homestay',
+		location: 'Babupara, Imphal West',
+		description: 'A welcoming Imphal stay with modern amenities, private rooms, WiFi, and easy access to the city.',
+		image: 'https://wanderon-images.gumlet.io/blogs/new/2024/06/iranyai-homestay.jpg?auto=compress%2Cformat&w=800',
 		url: 'https://wanderon.in/blogs/homestays-in-imphal',
-		mapUrl: 'https://www.google.com/maps/search/?api=1&query=homestays+in+Imphal+Manipur',
+		mapUrl: 'https://www.google.com/maps/search/?api=1&query=Iranyai+Homestay+Imphal+Manipur',
+	},
+	{
+		title: "John's Home Stay",
+		location: 'Chingmeirong, Imphal',
+		description: 'A peaceful family homestay with a garden, private entrance, WiFi, and convenient access to Imphal attractions.',
+		image: 'https://wanderon-images.gumlet.io/blogs/new/2024/06/johns-home-home-stay-1.jpg?auto=compress%2Cformat&w=800',
+		url: 'https://wanderon.in/blogs/homestays-in-imphal',
+		mapUrl: "https://www.google.com/maps/search/?api=1&query=John's+Home+Stay+Imphal+Manipur",
+	},
+	{
+		title: 'Aheibam HomeStay',
+		location: 'Iroishemba, Imphal',
+		description: 'A serene local stay with a garden, shared lounge, breakfast, and bicycle-friendly surroundings.',
+		image: 'https://wanderon-images.gumlet.io/blogs/new/2024/06/aheibam-homestay.jpg?auto=compress%2Cformat&w=800',
+		url: 'https://wanderon.in/blogs/homestays-in-imphal',
+		mapUrl: 'https://www.google.com/maps/search/?api=1&query=Aheibam+HomeStay+Imphal+Manipur',
+	},
+	{
+		title: 'Hearth of Imphal',
+		location: 'Chingmeirong, Imphal',
+		description: 'A heritage-style stay with a peaceful garden, breakfast, WiFi, and mountain-view rooms.',
+		image: 'https://wanderon-images.gumlet.io/blogs/new/2024/06/hearth-of-imphal.jpg?auto=compress%2Cformat&w=800',
+		url: 'https://wanderon.in/blogs/homestays-in-imphal',
+		mapUrl: 'https://www.google.com/maps/search/?api=1&query=Hearth+of+Imphal+Manipur',
+	},
+	{
+		title: 'Yum & Hill Cottage',
+		location: 'Luwangsangbam, Imphal East',
+		description: 'A quiet cottage surrounded by greenery with WiFi, breakfast, parking, and a relaxed local atmosphere.',
+		image: 'https://wanderon-images.gumlet.io/blogs/new/2024/06/yum-hill-cottage.jpg?auto=compress%2Cformat&w=800',
+		url: 'https://wanderon.in/blogs/homestays-in-imphal',
+		mapUrl: 'https://www.google.com/maps/search/?api=1&query=Yum+Hill+Cottage+Imphal+Manipur',
 	},
 	{
 		title: 'Homestays of India: Manipur',
@@ -117,7 +152,7 @@ export const Homestays = ({
 	className = '',
 }: HomestaysProps) => {
 	// Fetch homestays from API (uses VITE_API_BASE_URL from .env)
-	const { data: apiData, loading: apiLoading } = useApi(
+	const { data: apiData } = useApi(
 		() => homestaysService.getAll(),
 		[]
 	);
@@ -127,11 +162,16 @@ export const Homestays = ({
 	const externalListings = externalHomestays?.map(transformHomestay) || [];
 
 	// Use external data if provided, otherwise use API data
-	const listings = externalListings.length > 0 ? externalListings : apiListings.length > 0 ? apiListings : fallbackHomestays;
+	const listings = externalListings.length > 0
+		? externalListings
+		: apiListings.length > 0
+			? apiListings
+			: mockHomestays.length > 0 ? mockHomestays : fallbackHomestays;
 
-	const loading = externalLoading || apiLoading;
-	const totalCount = externalTotalCount ?? apiData?.meta?.total ?? listings.length;
-	const homestayMarkers = apiData?.data?.flatMap((homestay) => homestay.coordinates ? [{
+	const loading = externalLoading;
+	const totalCount = externalTotalCount ?? apiData?.meta?.total ?? mockHomestays.length;
+	const mapSource = apiData?.data?.length ? apiData.data : homestaysMock.data as Homestay[];
+	const homestayMarkers = mapSource.flatMap((homestay) => homestay.coordinates ? [{
 		id: homestay.id,
 		lat: homestay.coordinates.lat,
 		lng: homestay.coordinates.lng,
