@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import mongoose from 'mongoose';
 import { Listing, Event, Emergency, Transport } from '../models/index.js';
 import { auth, roles } from '../middleware/auth.js';
 
@@ -24,12 +25,17 @@ router.post('/listings', async (req, res) => {
 // Update listing
 router.put('/listings/:id', async (req, res) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({
+        message: 'Invalid listing ID'
+      });
+    }
+
     const filter =
       req.user.role === 'admin'
         ? { _id: req.params.id }
         : { _id: req.params.id, hostId: req.user._id };
 
-    // Never allow clients to change ownership fields.
     const updates = { ...req.body };
     delete updates.hostId;
     delete updates.hostName;
@@ -55,6 +61,12 @@ router.put('/listings/:id', async (req, res) => {
 // Delete listing
 router.delete('/listings/:id', async (req, res) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({
+        message: 'Invalid listing ID'
+      });
+    }
+
     const filter =
       req.user.role === 'admin'
         ? { _id: req.params.id }
