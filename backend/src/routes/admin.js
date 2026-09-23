@@ -29,9 +29,14 @@ router.put('/listings/:id', async (req, res) => {
         ? { _id: req.params.id }
         : { _id: req.params.id, hostId: req.user._id };
 
+    // Never allow clients to change ownership fields.
+    const updates = { ...req.body };
+    delete updates.hostId;
+    delete updates.hostName;
+
     const listing = await Listing.findOneAndUpdate(
       filter,
-      req.body,
+      updates,
       { new: true, runValidators: true }
     );
 
