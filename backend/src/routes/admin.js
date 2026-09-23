@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import mongoose from 'mongoose';
 import { Listing, Event, Emergency, Transport } from '../models/index.js';
 import { auth, roles } from '../middleware/auth.js';
 
@@ -9,8 +10,73 @@ router.use(auth, roles('admin', 'provider'));
 // Create listing
 router.post('/listings', async (req, res) => {
   try {
+    const {
+      type,
+      title,
+      price,
+      pricePerDay,
+      rating,
+      capacity
+    } = req.body;
+
+    const validTypes = [
+      'homestay',
+      'hotel',
+      'restaurant',
+      'guide',
+      'destination',
+      'heritage',
+      'adventure',
+      'shopping',
+      'transport'
+    ];
+
+    if (!validTypes.includes(type)) {
+      return res.status(400).json({
+        message: 'Invalid listing type'
+      });
+    }
+
+    if (typeof title !== 'string' || !title.trim()) {
+      return res.status(400).json({
+        message: 'Title is required'
+      });
+    }
+
+    if (price !== undefined &&
+        (!Number.isFinite(Number(price)) || Number(price) < 0)) {
+      return res.status(400).json({
+        message: 'Price must be a valid non-negative number'
+      });
+    }
+
+    if (pricePerDay !== undefined &&
+        (!Number.isFinite(Number(pricePerDay)) || Number(pricePerDay) < 0)) {
+      return res.status(400).json({
+        message: 'Price per day must be a valid non-negative number'
+      });
+    }
+
+    if (rating !== undefined &&
+        (!Number.isFinite(Number(rating)) ||
+         Number(rating) < 0 ||
+         Number(rating) > 5)) {
+      return res.status(400).json({
+        message: 'Rating must be between 0 and 5'
+      });
+    }
+
+    if (capacity?.guests !== undefined &&
+        (!Number.isInteger(Number(capacity.guests)) ||
+         Number(capacity.guests) < 1)) {
+      return res.status(400).json({
+        message: 'Capacity must be at least 1 guest'
+      });
+    }
+
     const listing = await Listing.create({
       ...req.body,
+      title: title.trim(),
       hostId: req.user._id,
       hostName: req.user.name
     });
@@ -24,14 +90,24 @@ router.post('/listings', async (req, res) => {
 // Update listing
 router.put('/listings/:id', async (req, res) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({
+        message: 'Invalid listing ID'
+      });
+    }
+
     const filter =
       req.user.role === 'admin'
         ? { _id: req.params.id }
         : { _id: req.params.id, hostId: req.user._id };
 
+    const updates = { ...req.body };
+    delete updates.hostId;
+    delete updates.hostName;
+
     const listing = await Listing.findOneAndUpdate(
       filter,
-      req.body,
+      updates,
       { new: true, runValidators: true }
     );
 
@@ -50,6 +126,12 @@ router.put('/listings/:id', async (req, res) => {
 // Delete listing
 router.delete('/listings/:id', async (req, res) => {
   try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(400).json({
+        message: 'Invalid listing ID'
+      });
+    }
+
     const filter =
       req.user.role === 'admin'
         ? { _id: req.params.id }

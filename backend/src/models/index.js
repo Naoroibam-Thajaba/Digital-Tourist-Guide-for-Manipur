@@ -31,9 +31,17 @@ const bookingSchema = new Schema({
 }, { timestamps: true });
 
 const reviewSchema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true }, listingId: { type: Schema.Types.ObjectId, ref: 'Listing', required: true },
-  rating: { type: Number, min: 1, max: 5, required: true }, comment: String, type: String
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  listingId: { type: Schema.Types.ObjectId, ref: 'Listing', required: true },
+  rating: { type: Number, min: 1, max: 5, required: true },
+  comment: String,
+  type: String
 }, { timestamps: true });
+
+reviewSchema.index(
+  { userId: 1, listingId: 1 },
+  { unique: true }
+);
 
 const eventSchema = new Schema({ title: String, description: String, district: String, venue: String, startDate: Date, endDate: Date, image: String, category: String, ticketPrice: Number, featured: Boolean }, { timestamps: true });
 const emergencySchema = new Schema({ name: String, type: String, phone: String, address: String, district: String, coordinates: { lat: Number, lng: Number }, available24x7: Boolean });
