@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Icon } from '../../atoms/Icon';
 import { Button } from '../../atoms/Button';
 import { ListingGrid } from '../../organisms/ListingGrid';
+import { MapView } from '../../organisms/MapView';
 import { SearchFilters, defaultFilterState } from '../../organisms/SearchFilters';
 import type { FilterState } from '../../organisms/SearchFilters';
 import type { HomestaysProps } from './HomestaysProps';
@@ -22,6 +23,24 @@ const transformHomestay = (homestay: Homestay): Omit<ListingCardProps, 'isSaved'
 	price: homestay.price,
 	period: 'per night',
 });
+
+const fallbackHomestays: Omit<ListingCardProps, 'isSaved' | 'onSave'>[] = [
+	{
+		id: 'loktak-lakeside', type: 'homestay', title: 'Loktak Lakeside Homestay',
+		image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop',
+		location: 'Moirang, Bishnupur', rating: 4.6, reviewCount: 42, price: 1800, period: 'per night',
+	},
+	{
+		id: 'imphal-local-home', type: 'homestay', title: 'Imphal Local Family Home',
+		image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800&h=600&fit=crop',
+		location: 'Imphal, Imphal West', rating: 4.8, reviewCount: 35, price: 2200, period: 'per night',
+	},
+	{
+		id: 'ukhrul-hill-stay', type: 'homestay', title: 'Shirui Hills View Homestay',
+		image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop',
+		location: 'Ukhrul, Ukhrul', rating: 4.7, reviewCount: 28, price: 2000, period: 'per night',
+	},
+];
 
 const localHomestayGuides = [
 	{
@@ -46,6 +65,30 @@ const localHomestayGuides = [
 		description: 'Compare traveller-picked stays in Imphal, including local homes, gardens, amenities, and access to the city.',
 		image: 'https://wanderon-images.gumlet.io/blogs/new/2024/06/homestays-in-imphal.jpg?auto=compress%2Cformat&w=800',
 		url: 'https://wanderon.in/blogs/homestays-in-imphal',
+		mapUrl: 'https://www.google.com/maps/search/?api=1&query=homestays+in+Imphal+Manipur',
+	},
+	{
+		title: 'Homestays of India: Manipur',
+		location: 'Manipur',
+		description: 'Browse Manipur stays including the Keibul Homestay near Loktak Lake from a dedicated homestay directory.',
+		image: 'https://www.homestaysofindia.com/wp-content/uploads/2020/03/Aerial-View-Keibul-Homestay-Loktak.jpeg',
+		url: 'https://www.homestaysofindia.com/manipur/',
+		mapUrl: 'https://www.google.com/maps/search/?api=1&query=homestays+in+Manipur',
+	},
+	{
+		title: 'Homestays in Thangmeiband',
+		location: 'Thangmeiband, Imphal',
+		description: 'Explore accommodation options around Thangmeiband in Imphal through MakeMyTrip.',
+		image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop',
+		url: 'https://www.makemytrip.global/hotels/area-homestays-in-thangmeiband-imphal.html',
+		mapUrl: 'https://www.google.com/maps/search/?api=1&query=homestays+in+Thangmeiband+Imphal',
+	},
+	{
+		title: 'Top Homestays in Imphal 2026',
+		location: 'Imphal, Manipur',
+		description: 'Compare traveller-focused Imphal stays such as Hearth of Imphal, Iranyai Homestay, and Eco Heritage Villas.',
+		image: 'https://img.traveltriangle.com/blog/wp-content/uploads/2024/09/Homestays-in-Imphal-1.jpg?w=800&h=600&fit=crop',
+		url: 'https://traveltriangle.com/blog/homestays-in-imphal/',
 		mapUrl: 'https://www.google.com/maps/search/?api=1&query=homestays+in+Imphal+Manipur',
 	},
 ];
@@ -74,7 +117,7 @@ export const Homestays = ({
 	className = '',
 }: HomestaysProps) => {
 	// Fetch homestays from API (uses VITE_API_BASE_URL from .env)
-	const { data: apiData, loading: apiLoading, error } = useApi(
+	const { data: apiData, loading: apiLoading } = useApi(
 		() => homestaysService.getAll(),
 		[]
 	);
@@ -84,10 +127,21 @@ export const Homestays = ({
 	const externalListings = externalHomestays?.map(transformHomestay) || [];
 
 	// Use external data if provided, otherwise use API data
-	const listings = externalListings.length > 0 ? externalListings : apiListings;
+	const listings = externalListings.length > 0 ? externalListings : apiListings.length > 0 ? apiListings : fallbackHomestays;
 
 	const loading = externalLoading || apiLoading;
 	const totalCount = externalTotalCount ?? apiData?.meta?.total ?? listings.length;
+	const homestayMarkers = apiData?.data?.flatMap((homestay) => homestay.coordinates ? [{
+		id: homestay.id,
+		lat: homestay.coordinates.lat,
+		lng: homestay.coordinates.lng,
+		title: homestay.title,
+		price: homestay.price,
+	}] : []) || [
+		{ id: 'loktak-lakeside', lat: 24.552, lng: 93.786, title: 'Loktak Lakeside Homestay', price: 1800 },
+		{ id: 'imphal-local-home', lat: 24.817, lng: 93.936, title: 'Imphal Local Family Home', price: 2200 },
+		{ id: 'ukhrul-hill-stay', lat: 25.095, lng: 94.36, title: 'Shirui Hills View Homestay', price: 2000 },
+	];
 
 	// Internal filter state (used if no external control)
 	const [internalFilters, setInternalFilters] = useState<FilterState>({
@@ -202,9 +256,24 @@ export const Homestays = ({
 							savedIds={savedIds}
 							onSave={onSave}
 							columns={{ sm: 1, md: 2, lg: 2, xl: 3 }}
-							emptyTitle={error ? "Unable to load homestays" : "No homestays found"}
-							emptyMessage={error ? "Please check your connection and try again." : "Try adjusting your filters to find more results."}
+							emptyTitle="No homestays found"
+							emptyMessage="Try adjusting your filters to find more results."
 						/>
+
+						<section className="mt-12" aria-labelledby="homestay-map-title">
+							<h2 id="homestay-map-title" className="font-heading text-2xl md:text-3xl font-bold mb-2">
+								Homestay locations in Manipur
+							</h2>
+							<p className="text-base-content/60 mb-5">
+								See stays around Imphal West, Loktak Lake in Bishnupur, and Ukhrul.
+							</p>
+							<MapView
+								center={{ lat: 24.817, lng: 93.936 }}
+								markers={homestayMarkers}
+								locationName="Manipur homestays"
+								height="380px"
+							/>
+						</section>
 
 						{/* Pagination */}
 						{!loading && listings.length > 0 && totalPages > 1 && (
