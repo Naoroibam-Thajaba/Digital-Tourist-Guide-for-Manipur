@@ -1,0 +1,22 @@
+{
+	// Root TypeScript configuration that composes project references.
+	// This file is used by the editor and build tooling to know which sub-configs to load.
+	"files": [],
+	// Project references to allow TypeScript to treat the codebase as multiple smaller projects.
+	"references": [
+		{
+			// Path to the application-specific configuration containing compiler options and includes
+			// for the runtime React/TypeScript source.
+			"path": "./tsconfig.app.json"
+		},
+		{
+			// Path to the Node/Vite / tooling configuration used for build-time checks and types.
+			// Typically contains stricter or tool-specific options (see `tsconfig.node.json`).
+			"path": "./tsconfig.node.json"
+		},
+//		{
+//			// Path to the Storybook configuration with relaxed module resolution settings.
+//			"path": "./.storybook/tsconfig.json"
+//		}
+	]
+}

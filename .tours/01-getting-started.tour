@@ -1,0 +1,97 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "01 - Getting Started",
+  "description": "Learn how to set up and run the JharkhandYatra project on your computer. This is the first tour you should take!",
+  "steps": [
+    {
+      "title": "Welcome to the Project!",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Welcome to JharkhandYatra!\n\nThis is a tourism website for Jharkhand, built for **Smart India Hackathon 2025**.\n\n### What does this app do?\nIt helps tourists find:\n- **Homestays** - Places to stay with local families\n- **Guides** - Local experts who can show you around\n- **Handicrafts** - Traditional crafts made by local artisans\n\n### What you'll learn in this tour:\n1. How to install the project\n2. How to run it on your computer\n3. Where important files are located\n\n**Click \"Next\" to continue!**"
+    },
+    {
+      "title": "The package.json File",
+      "file": "package.json",
+      "line": 1,
+      "description": "## What is package.json?\n\nThis file is like a **recipe card** for your project. It tells everyone:\n\n1. **Project name** - What this project is called\n2. **Version number** - Which version this is (like \"0.8.1\")\n3. **Dependencies** - What other code libraries this project needs\n4. **Scripts** - Commands you can run\n\n### Think of it like this:\nIf your project was a cake, `package.json` would list all the ingredients and baking instructions!\n\n**Every Node.js project has this file.**"
+    },
+    {
+      "title": "Project Dependencies",
+      "file": "package.json",
+      "line": 17,
+      "description": "## Dependencies - The Building Blocks\n\nThese are the **code libraries** our project uses. Instead of writing everything from scratch, we use code that other developers have already written and tested.\n\n### Main libraries we use:\n\n| Library | What it does |\n|---------|-------------|\n| **React** | Helps us build the user interface (what users see and click) |\n| **react-router** | Handles navigation between pages (like Home, Search, etc.) |\n| **axios** | Helps us fetch data from the server |\n| **tailwindcss** | Makes styling our app much easier |\n| **daisyui** | Gives us ready-made components like buttons and cards |\n\n### How do you install these?\nJust run: `npm install`\n\nThis command reads `package.json` and downloads everything listed here!"
+    },
+    {
+      "title": "Available Commands (Scripts)",
+      "file": "package.json",
+      "line": 7,
+      "description": "## Scripts - Commands You Can Run\n\nThese are shortcuts for common tasks. You run them using `npm run <script-name>`.\n\n### Most important commands:\n\n| Command | What it does |\n|---------|-------------|\n| `npm run dev` | Starts the app on your computer (for development) |\n| `npm run build` | Creates a production-ready version |\n| `npm run storybook` | Opens the component library |\n| `npm run deploy` | Publishes the app to GitHub Pages |\n\n### Try it!\nOpen your terminal and type:\n```bash\nnpm run dev\n```\n\nThis will start the app at `http://localhost:5173`"
+    },
+    {
+      "title": "The Entry Point",
+      "file": "src/main.tsx",
+      "line": 1,
+      "description": "## Where the App Starts\n\nThis is the **first file** that runs when your app starts. Think of it as the front door to your application.\n\n### What happens here:\n\n1. We import React and other tools we need\n2. We find the `<div id=\"root\">` element in the HTML\n3. We tell React to put our entire app inside that div\n\n### The code flow:\n```\nmain.tsx → App.tsx → Individual pages\n```\n\nEvery React app has a file like this that \"boots up\" the application."
+    },
+    {
+      "title": "Setting Up the App",
+      "file": "src/main.tsx",
+      "line": 23,
+      "description": "## How the App is Set Up\n\nLook at how we wrap our app in layers (like wrapping a gift in multiple boxes):\n\n```\nStrictMode\n  └── BrowserRouter\n        └── ToastProvider\n              └── App\n```\n\n### What each layer does:\n\n1. **StrictMode** - Helps find problems during development\n2. **BrowserRouter** - Enables page navigation (clicking links)\n3. **ToastProvider** - Allows us to show notification messages\n4. **App** - Our actual application!\n\n### Why wrap things?\nEach wrapper adds a \"feature\" that all pages inside can use. It's like giving everyone in a building access to the same elevator."
+    },
+    {
+      "title": "The App Component",
+      "file": "src/App.tsx",
+      "line": 1,
+      "description": "## The Main App Component\n\nThis file defines **all the pages** in our app and how to get to them.\n\n### What's a \"Route\"?\nA route connects a URL to a page. For example:\n- `/` → Home page\n- `/homestays/123` → A specific homestay's details\n- `/login` → Login page\n\n### Think of it like a map:\nJust like a city map shows which road leads where, this file shows which URL leads to which page."
+    },
+    {
+      "title": "Routes and Layouts",
+      "file": "src/App.tsx",
+      "line": 33,
+      "description": "## Understanding Routes\n\nThis is where we list all the pages and their URLs.\n\n### How routes work:\n```jsx\n<Route path=\"/\" element={<Home />} />\n```\nThis means: \"When someone visits `/`, show the `Home` component.\"\n\n### Layouts group pages:\nPages that look similar share a \"layout\". For example:\n- Main pages (Home, Search) share the same header and footer\n- Login and Register share a centered card design\n\n### Route groups in this app:\n| Layout | Pages | What they share |\n|--------|-------|----------------|\n| MainLayout | Home, Search, Details | Header, footer, navigation |\n| AuthLayout | Login, Register | Centered card design |\n| DashboardLayout | Provider pages | Sidebar navigation |"
+    },
+    {
+      "title": "Global Styles",
+      "file": "src/index.css",
+      "line": 1,
+      "description": "## The Stylesheet\n\nThis file controls how the entire app **looks**.\n\n### What's inside:\n\n1. **TailwindCSS setup** - A tool that lets us style with simple class names\n2. **Custom theme colors** - Our brand colors (terracotta red, amber gold, forest green)\n3. **Font settings** - Which fonts we use\n\n### TailwindCSS is special:\nInstead of writing CSS like this:\n```css\n.button { background-color: blue; padding: 10px; }\n```\n\nWe write classes directly in HTML:\n```html\n<button class=\"bg-blue-500 p-2\">Click me</button>\n```\n\nThis makes styling much faster!"
+    },
+    {
+      "title": "The Custom Theme",
+      "file": "src/index.css",
+      "line": 4,
+      "description": "## Our Color Theme\n\nWe created a custom color theme inspired by Jharkhand's culture.\n\n### The colors and their meaning:\n\n| Color | Used for | Inspired by |\n|-------|----------|-------------|\n| **Primary (Terracotta Red)** | Main buttons, links | Red earth & pottery of Jharkhand |\n| **Secondary (Amber Gold)** | Highlights, accents | Golden tribal craftsmanship |\n| **Accent (Forest Green)** | Special elements | Jharkhand's dense forests |\n\n### Why themes matter:\nHaving a consistent color scheme makes the app look professional and helps users recognize our brand."
+    },
+    {
+      "title": "Vite Configuration",
+      "file": "vite.config.ts",
+      "line": 1,
+      "description": "## The Build Tool Configuration\n\n**Vite** (pronounced \"veet\", French for \"fast\") is our build tool. It does several jobs:\n\n1. **Runs the development server** - So you can see changes instantly\n2. **Bundles the code** - Combines all files into optimized packages\n3. **Handles TypeScript** - Converts TypeScript to JavaScript\n\n### Why do we need a build tool?\nBrowsers can't directly run TypeScript or understand advanced features. Vite converts our code into something browsers can understand."
+    },
+    {
+      "title": "Build Tool Settings",
+      "file": "vite.config.ts",
+      "line": 21,
+      "description": "## Vite Configuration Explained\n\nLet's break down what this configuration does:\n\n### Plugins:\n```typescript\nplugins: [react(), tailwindcss()]\n```\n- `react()` - Enables React support (JSX, fast refresh)\n- `tailwindcss()` - Enables TailwindCSS styling\n\n### Base path:\n```typescript\nbase: mode === 'production' ? '/sih-2025-jharkhand-tourism/' : '/'\n```\n- In development: App runs at `http://localhost:5173/`\n- In production: App runs at `https://yoursite.github.io/sih-2025-jharkhand-tourism/`\n\n### This is needed because:\nGitHub Pages puts our app in a subfolder, not the root URL."
+    },
+    {
+      "title": "TypeScript Configuration",
+      "file": "tsconfig.json",
+      "line": 1,
+      "description": "## TypeScript Settings\n\n**TypeScript** is JavaScript with **types**. Types help catch errors before you run the code.\n\n### Example without types (JavaScript):\n```javascript\nfunction add(a, b) {\n  return a + b;\n}\nadd(\"hello\", 5); // This will cause a bug!\n```\n\n### Example with types (TypeScript):\n```typescript\nfunction add(a: number, b: number): number {\n  return a + b;\n}\nadd(\"hello\", 5); // Error! \"hello\" is not a number\n```\n\n### Why use TypeScript?\n- Catches bugs while you write code (not when users find them!)\n- Better autocomplete in your editor\n- Makes code easier to understand"
+    },
+    {
+      "title": "📋 To Do: Set Up Your Development Environment",
+      "file": "package.json",
+      "line": 1,
+      "description": "## 📋 To Do: Set Up Your Development Environment\n\nNow it's your turn! Follow these steps to get the project running.\n\n---\n\n### Step 1: Clone the Repository\n```bash\ngit clone https://github.com/your-username/sih-2025-jharkhand-tourism.git\ncd sih-2025-jharkhand-tourism\n```\n\n### Step 2: Install Dependencies\n```bash\nnpm install\n```\n\n### Step 3: Create Environment File\n```bash\n# Copy the example environment file\ncp .env.example .env\n```\n\nEdit `.env` and add your API keys:\n```env\nVITE_API_BASE_URL=https://your-mock-server.com\nVITE_POSTMAN_API_KEY=your-api-key-here\n```\n\n### Step 4: Start Development Server\n```bash\nnpm run dev\n```\n\n### Step 5: Verify It Works\n- Open `http://localhost:5173` in your browser\n- You should see the JharkhandYatra home page\n\n---\n\n## ⚠️ Watch Out For\n\n| Issue | Cause | Solution |\n|-------|-------|----------|\n| `npm install` fails | Node.js not installed | Install Node.js v18+ from nodejs.org |\n| Port 5173 in use | Another app using it | Run `npm run dev -- --port 3000` |\n| Blank white page | Missing dependencies | Delete `node_modules` and run `npm install` again |\n| API errors | Missing `.env` file | Create `.env` with required variables |\n\n---\n\n## ❌ Common Errors\n\n| Error Message | What It Means | How to Fix |\n|---------------|---------------|------------|\n| `'vite' is not recognized` | Dependencies not installed | Run `npm install` |\n| `ENOENT: no such file` | Wrong directory | Make sure you're in the project folder |\n| `Module not found` | Missing package | Run `npm install` again |\n| `EACCES permission denied` | Permission issue | Use `sudo` or fix npm permissions |\n\n---\n\n### ✅ Checklist\n- [ ] Node.js v18+ installed (`node --version`)\n- [ ] Repository cloned\n- [ ] Dependencies installed (`npm install`)\n- [ ] `.env` file created with API keys\n- [ ] Development server running (`npm run dev`)\n- [ ] App opens in browser at localhost:5173"
+    },
+    {
+      "title": "What's Next?",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Congratulations!\n\nYou've completed the \"Getting Started\" tour!\n\n### Quick Recap:\n1. **package.json** - Lists dependencies and scripts\n2. **main.tsx** - Where the app starts\n3. **App.tsx** - Defines all routes (pages)\n4. **index.css** - Global styles and theme\n5. **vite.config.ts** - Build tool settings\n6. **tsconfig.json** - TypeScript settings\n\n### Next steps:\n1. Open your terminal\n2. Run `npm install` (if you haven't already)\n3. Run `npm run dev`\n4. Open `http://localhost:5173` in your browser\n\n### Continue learning:\nTake the **\"02 - Project Structure\"** tour to learn how the code is organized!\n\n**Happy coding!**"
+    }
+  ]
+}

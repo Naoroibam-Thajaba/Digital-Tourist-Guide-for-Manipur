@@ -1,0 +1,115 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "02 - Project Structure",
+  "description": "Understand how the code is organized in folders. Knowing where things are makes development much easier!",
+  "steps": [
+    {
+      "title": "The Big Picture",
+      "file": "package.json",
+      "line": 1,
+      "description": "## How is the Code Organized?\n\nBefore we dive in, let's understand the overall structure.\n\n### Top-level folders:\n\n```\nsih-2025-jharkhand-tourism/\n├── public/          → Static files (favicon, images)\n├── src/             → All our code lives here!\n├── .storybook/      → Component documentation setup\n├── .tours/          → These tour files!\n└── node_modules/    → Downloaded libraries (don't edit!)\n```\n\n### The most important folder is `src/`\nThis is where you'll spend 99% of your time. It contains:\n- Components (the building blocks of our UI)\n- Pages (what users see when they visit a URL)\n- Services (code that talks to the server)\n- And more!\n\n**Let's explore each folder...**"
+    },
+    {
+      "title": "The src Folder",
+      "file": "src/main.tsx",
+      "line": 1,
+      "description": "## The `src/` Folder\n\nThis folder contains **all our application code**.\n\n### What's inside:\n\n```\nsrc/\n├── components/      → Reusable UI pieces\n├── context/         → Shared app state (like a shopping cart)\n├── hooks/           → Custom React functions\n├── services/        → Code that fetches data\n├── types/           → TypeScript type definitions\n├── mocks/           → Fake data for testing\n├── stories/         → Storybook examples\n├── App.tsx          → Main app with routes\n├── main.tsx         → Entry point (you are here!)\n└── index.css        → Global styles\n```\n\n### Why organize like this?\n- **Easier to find things** - Each folder has a clear purpose\n- **Team collaboration** - Everyone knows where to put new code\n- **Scales well** - Works for small and large projects"
+    },
+    {
+      "title": "Components Folder Overview",
+      "file": "src/components/atoms/Button/Button.tsx",
+      "line": 1,
+      "description": "## The Components Folder\n\nThis is where all our **UI building blocks** live.\n\n### We organize components by size:\n\n```\ncomponents/\n├── atoms/       → Smallest pieces (Button, Icon, Input)\n├── molecules/   → Groups of atoms (SearchBar, ListingCard)\n├── organisms/   → Complex sections (Navbar, Footer)\n├── layouts/     → Page templates (MainLayout)\n└── pages/       → Full pages (Home, Search)\n```\n\n### Think of it like building with LEGO:\n- **Atoms** = Individual LEGO bricks\n- **Molecules** = Small structures (like a mini car)\n- **Organisms** = Bigger structures (like a house)\n- **Pages** = Complete creations\n\n**This pattern is called \"Atomic Design\" - we'll cover it in detail in Tour 03!**"
+    },
+    {
+      "title": "Atoms - The Smallest Pieces",
+      "file": "src/components/atoms/Button/index.ts",
+      "line": 1,
+      "description": "## Atoms Folder\n\nAtoms are the **smallest, simplest** components. They do one thing and do it well.\n\n### Our atoms:\n\n| Component | What it shows |\n|-----------|---------------|\n| **Avatar** | User's profile picture |\n| **Badge** | Small labels (like \"New\" or \"Popular\") |\n| **Button** | Clickable buttons |\n| **Icon** | Small symbols (like a heart or star) |\n| **Input** | Text boxes for typing |\n| **Price** | Money amounts (₹2,500) |\n| **Rating** | Star ratings (★★★★☆) |\n| **Skeleton** | Loading placeholders |\n| **Tag** | Filter tags |\n\n### Each atom has its own folder with:\n- `Button.tsx` - The component code\n- `ButtonProps.ts` - Type definitions\n- `Button.stories.tsx` - Examples for Storybook\n- `index.ts` - Export file"
+    },
+    {
+      "title": "Component Folder Structure",
+      "file": "src/components/atoms/Button/ButtonProps.ts",
+      "line": 1,
+      "description": "## Inside a Component Folder\n\nEvery component follows the **same structure**. This makes it easy to find things.\n\n### Example: Button component\n```\nButton/\n├── Button.tsx         → The actual component\n├── ButtonProps.ts     → What options (props) it accepts\n├── Button.stories.tsx → Examples for documentation\n└── index.ts           → Makes importing easier\n```\n\n### What's in each file?\n\n**ButtonProps.ts** (this file):\n- Defines what options the button accepts\n- Example: size, color, text, onClick function\n\n**Button.tsx**:\n- The actual code that renders the button\n\n**Button.stories.tsx**:\n- Examples showing different button styles\n- Used in Storybook documentation"
+    },
+    {
+      "title": "The Index File Pattern",
+      "file": "src/components/atoms/Button/index.ts",
+      "line": 1,
+      "description": "## The index.ts File\n\nThis small file makes importing **much cleaner**.\n\n### Without index.ts:\n```typescript\nimport { Button } from './components/atoms/Button/Button';\nimport { ButtonProps } from './components/atoms/Button/ButtonProps';\n```\n\n### With index.ts:\n```typescript\nimport { Button, ButtonProps } from './components/atoms/Button';\n```\n\n### How it works:\nThe `index.ts` file \"re-exports\" everything from the folder. When you import from a folder, Node.js automatically looks for `index.ts`.\n\n### This pattern is called \"barrel exports\":\n- Cleaner imports\n- Hide internal implementation\n- Easy to change file names later"
+    },
+    {
+      "title": "Molecules - Combined Atoms",
+      "file": "src/components/molecules/ListingCard/ListingCard.tsx",
+      "line": 1,
+      "description": "## Molecules Folder\n\nMolecules are made by **combining atoms** together.\n\n### Example: ListingCard\nThis card combines:\n- An **Image** (not an atom, but similar idea)\n- A **Badge** atom (\"Superhost\" label)\n- A **Rating** atom (star rating)\n- A **Price** atom (₹2,500/night)\n- **Text** elements (title, location)\n\n### Our molecules:\n\n| Component | What it does |\n|-----------|-------------|\n| **ListingCard** | Shows a homestay/guide preview |\n| **SearchBar** | Search input with button |\n| **ReviewCard** | A user's review with rating |\n| **CartItem** | Item in shopping cart |\n| **DatePicker** | Select check-in/check-out dates |\n| **GuestSelector** | Choose number of guests |\n\n### Key point:\nMolecules are **reusable** - we use the same ListingCard for homestays, guides, and products!"
+    },
+    {
+      "title": "Organisms - Complex Sections",
+      "file": "src/components/organisms/Navbar/Navbar.tsx",
+      "line": 1,
+      "description": "## Organisms Folder\n\nOrganisms are **large, complex sections** of a page.\n\n### Example: Navbar\nThe navigation bar includes:\n- Logo and brand name\n- Navigation links (Home, Homestays, Guides)\n- Search bar (a molecule!)\n- Cart icon with item count\n- User menu (login/profile)\n\n### Our organisms:\n\n| Component | Where you see it |\n|-----------|------------------|\n| **Navbar** | Top of every page |\n| **Footer** | Bottom of every page |\n| **Hero** | Big banner on home page |\n| **ListingGrid** | Grid of listing cards |\n| **BookingWidget** | \"Book Now\" sidebar |\n| **ShoppingCart** | Cart drawer |\n\n### Organisms are page sections:\nWhile atoms and molecules are small and reusable everywhere, organisms are bigger chunks that appear in specific places."
+    },
+    {
+      "title": "Layouts - Page Templates",
+      "file": "src/components/layouts/MainLayout/MainLayout.tsx",
+      "line": 1,
+      "description": "## Layouts Folder\n\nLayouts are **page templates** that wrap around content.\n\n### What's a layout?\nImagine a picture frame - the frame stays the same, but the picture inside changes. Layouts work the same way!\n\n### MainLayout includes:\n- Navbar at the top (always visible)\n- Content area in the middle (changes per page)\n- Footer at the bottom (always visible)\n- Mobile navigation (on phones)\n\n### Our layouts:\n\n| Layout | Used for |\n|--------|----------|\n| **MainLayout** | Most pages (Home, Search, Details) |\n| **AuthLayout** | Login and Register pages |\n| **CheckoutLayout** | Booking and payment pages |\n| **DashboardLayout** | Provider/admin pages |\n\n### Why use layouts?\n- **Avoid repeating code** - Don't write the same navbar on every page\n- **Consistency** - All pages look similar\n- **Easy updates** - Change the navbar once, it updates everywhere"
+    },
+    {
+      "title": "Pages - What Users See",
+      "file": "src/components/pages/Home/Home.tsx",
+      "line": 1,
+      "description": "## Pages Folder\n\nPages are the **complete screens** users see when they visit a URL.\n\n### Each page:\n- Has its own URL (like `/homestays` or `/login`)\n- Uses a layout as a wrapper\n- Contains organisms, molecules, and atoms\n\n### Our pages:\n\n| Page | URL | What it shows |\n|------|-----|---------------|\n| **Home** | `/` | Landing page with featured content |\n| **Search** | `/search` | Search results with filters |\n| **HomestayDetail** | `/homestays/123` | Details of one homestay |\n| **Booking** | `/booking` | Booking confirmation |\n| **Login** | `/login` | Login form |\n| **Dashboard** | `/dashboard` | Provider dashboard |\n| **NotFound** | `/*` | 404 error page |\n\n### URL to Page mapping:\nThis connection is defined in `App.tsx` using React Router."
+    },
+    {
+      "title": "Context Folder - Shared State",
+      "file": "src/context/CartContext.tsx",
+      "line": 1,
+      "description": "## Context Folder\n\nThis folder contains **shared state** that multiple parts of the app need.\n\n### What's \"state\"?\nState is data that can change. Examples:\n- Items in a shopping cart\n- Whether the user is logged in\n- Notification messages\n\n### Why \"context\"?\nNormally, data flows from parent to child components. But what if the Navbar and Footer both need cart info? Context lets us share data without passing it through every component.\n\n### Our contexts:\n\n| Context | What it manages |\n|---------|----------------|\n| **CartContext** | Shopping cart items |\n| **ToastContext** | Notification messages |\n\n### We'll cover this in detail in Tour 04!"
+    },
+    {
+      "title": "Services Folder - Talking to Servers",
+      "file": "src/services/api.ts",
+      "line": 1,
+      "description": "## Services Folder\n\nThis folder contains code that **fetches data from the server**.\n\n### Why separate this code?\n- **Keep components clean** - Components focus on UI, services handle data\n- **Reuse** - Multiple pages can use the same service\n- **Easy to test** - Services can be tested separately\n\n### Our services:\n\n| Service | What it does |\n|---------|-------------|\n| **api.ts** | Base setup for making requests |\n| **homestays.service.ts** | Fetch homestay data |\n| **guides.service.ts** | Fetch guide data |\n| **products.service.ts** | Fetch product data |\n| **bookings.service.ts** | Handle bookings |\n\n### Example usage:\n```typescript\n// In a component:\nconst homestays = await homestaysService.getAll();\n```\n\n### We'll cover this in detail in Tour 05!"
+    },
+    {
+      "title": "Types Folder - TypeScript Definitions",
+      "file": "src/types/api.types.ts",
+      "line": 1,
+      "description": "## Types Folder\n\nThis folder defines **what our data looks like** using TypeScript.\n\n### Why define types?\nTypes are like a contract. They say \"a Homestay must have a title, price, and location.\" If something is missing, TypeScript tells you before you run the code!\n\n### Example type:\n```typescript\ninterface Homestay {\n  id: string;         // Unique identifier\n  title: string;      // Name of the homestay\n  price: number;      // Price per night\n  location: string;   // Where it is\n  images: string[];   // List of image URLs\n}\n```\n\n### Benefits:\n- **Autocomplete** - Your editor suggests valid properties\n- **Error prevention** - Can't misspell property names\n- **Documentation** - Types explain what data exists"
+    },
+    {
+      "title": "Hooks Folder - Reusable Logic",
+      "file": "src/hooks/useApi.ts",
+      "line": 1,
+      "description": "## Hooks Folder\n\nHooks are **reusable pieces of logic** for React components.\n\n### What's a hook?\nA hook is a special function that adds features to your component. React comes with built-in hooks like:\n- `useState` - Remember data between renders\n- `useEffect` - Do something when data changes\n\n### Custom hooks:\nWe can create our own hooks to reuse common patterns.\n\n### Our hooks:\n\n| Hook | What it does |\n|------|-------------|\n| **useApi** | Fetches data and handles loading/error states |\n\n### Example:\n```typescript\n// Instead of writing fetch logic in every component:\nconst { data, loading, error } = useApi(\n  () => homestaysService.getAll()\n);\n```\n\nThis hook handles loading states, errors, and gives you the data - all in one line!"
+    },
+    {
+      "title": "Mocks Folder - Fake Data",
+      "file": "src/mocks/homestays.json",
+      "line": 1,
+      "description": "## Mocks Folder\n\nThis folder contains **fake data** for development and testing.\n\n### Why fake data?\n- The real server might not be ready yet\n- You can develop without internet\n- Tests run faster with local data\n- You control exactly what data you get\n\n### Our mock files:\n\n| File | Contains |\n|------|----------|\n| **homestays.json** | Sample homestay listings |\n| **guides.json** | Sample guide profiles |\n| **products.json** | Sample handicraft products |\n\n### How we use it:\nWe set up a \"mock server\" (using Postman) that returns this data. The app doesn't know it's fake - it works just like a real server!\n\n### When the real server is ready:\nWe just change the server URL and remove the mock server. No code changes needed!"
+    },
+    {
+      "title": "Storybook Folder",
+      "file": ".storybook/preview.tsx",
+      "line": 1,
+      "description": "## The .storybook Folder\n\nStorybook is a tool for **documenting and testing components**.\n\n### What is Storybook?\nIt's like a catalog of all your components. You can:\n- See every component in isolation\n- Try different variations (sizes, colors, states)\n- Test how they look without running the full app\n\n### To use Storybook:\n```bash\nnpm run storybook\n```\nThen open `http://localhost:6006` in your browser.\n\n### Why use it?\n- **Team communication** - Designers and developers see the same thing\n- **Quality assurance** - Check components look correct\n- **Documentation** - New team members can explore available components"
+    },
+    {
+      "title": "📋 To Do: Create Your First Component",
+      "file": "src/components/atoms/Button/Button.tsx",
+      "line": 1,
+      "description": "## 📋 To Do: Create Your First Component\n\nLet's practice by creating a new atom component: a `Tooltip` component.\n\n---\n\n### Step 1: Create the Folder Structure\n```bash\nmkdir -p src/components/atoms/Tooltip\n```\n\n### Step 2: Create the Props File\nCreate `src/components/atoms/Tooltip/TooltipProps.ts`:\n```typescript\nexport interface TooltipProps {\n  /** The text to show in the tooltip */\n  text: string;\n  /** Where to position the tooltip */\n  position?: 'top' | 'bottom' | 'left' | 'right';\n  /** The element that triggers the tooltip */\n  children: React.ReactNode;\n}\n```\n\n### Step 3: Create the Component\nCreate `src/components/atoms/Tooltip/Tooltip.tsx`:\n```typescript\nimport { TooltipProps } from './TooltipProps';\n\nexport function Tooltip({ \n  text, \n  position = 'top', \n  children \n}: TooltipProps) {\n  return (\n    <div className={`tooltip tooltip-${position}`} data-tip={text}>\n      {children}\n    </div>\n  );\n}\n```\n\n### Step 4: Create the Index File\nCreate `src/components/atoms/Tooltip/index.ts`:\n```typescript\nexport { Tooltip } from './Tooltip';\nexport type { TooltipProps } from './TooltipProps';\n```\n\n### Step 5: Export from Atoms Index\nAdd to `src/components/atoms/index.ts`:\n```typescript\nexport * from './Tooltip';\n```\n\n---\n\n## ⚠️ Watch Out For\n\n| Issue | Cause | Solution |\n|-------|-------|----------|\n| Component not found after import | Missing export | Check `index.ts` exports |\n| Props not autocompleting | Missing type export | Export both component AND props |\n| Styles not applying | Wrong class names | Check DaisyUI documentation |\n| File not saved | IDE sync issue | Save all files (Cmd+S or Ctrl+S) |\n\n---\n\n## ❌ Common Errors\n\n| Error Message | What It Means | How to Fix |\n|---------------|---------------|------------|\n| `Cannot find module './TooltipProps'` | File not created or wrong name | Check filename matches import |\n| `'Tooltip' is not exported` | Missing export statement | Add `export` keyword before function |\n| `Property 'X' is missing` | Required prop not provided | Pass all required props |\n| `Type 'X' is not assignable` | Wrong prop type | Check prop interface definition |\n\n---\n\n### ✅ Checklist\n- [ ] Created folder: `src/components/atoms/Tooltip/`\n- [ ] Created `TooltipProps.ts` with interface\n- [ ] Created `Tooltip.tsx` with component\n- [ ] Created `index.ts` with exports\n- [ ] Added export to `src/components/atoms/index.ts`\n- [ ] Tested component in another file"
+    },
+    {
+      "title": "Summary: Where to Put What",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Quick Reference: Where to Put New Code\n\n### Adding a new component?\n1. Decide the size (atom, molecule, organism, page)\n2. Create a folder: `src/components/[size]/ComponentName/`\n3. Add: `ComponentName.tsx`, `ComponentNameProps.ts`, `index.ts`\n\n### Adding a new page?\n1. Create folder: `src/components/pages/PageName/`\n2. Add the route in `App.tsx`\n\n### Adding new shared state?\n1. Create: `src/context/SomethingContext.tsx`\n2. Add provider in `main.tsx`\n\n### Adding server communication?\n1. Create: `src/services/something.service.ts`\n\n### Adding new types?\n1. Add to: `src/types/api.types.ts` or create new file\n\n---\n\n**Tour Complete!**\n\nNext: Take the **\"03 - Routing & Navigation\"** tour to learn how pages are connected!"
+    }
+  ]
+}

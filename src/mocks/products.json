@@ -1,0 +1,234 @@
+{
+  "data": [
+    {
+      "id": "prod-001",
+      "title": "Sohrai Painting - Harvest Festival",
+      "description": "Traditional Sohrai wall painting on canvas depicting the harvest festival celebration. Hand-painted by master artist using natural pigments.",
+      "price": 4500,
+      "originalPrice": 5500,
+      "category": "Paintings",
+      "images": [
+        "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800",
+        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800"
+      ],
+      "artisan": {
+        "id": "artisan-001",
+        "name": "Suma Devi",
+        "location": "Hazaribagh",
+        "avatar": "https://randomuser.me/api/portraits/women/21.jpg"
+      },
+      "rating": 4.9,
+      "reviewCount": 45,
+      "inStock": true,
+      "craftStory": "This artwork follows the centuries-old Sohrai tradition, originally painted on mud walls during harvest festivals. Each symbol represents aspects of nature worship and agricultural prosperity.",
+      "materials": ["Cotton Canvas", "Natural Earth Pigments", "Gum Arabic"],
+      "dimensions": "24 x 18 inches"
+    },
+    {
+      "id": "prod-002",
+      "title": "Dokra Elephant Figurine",
+      "description": "Handcrafted brass elephant using the ancient lost-wax Dokra technique. A symbol of wisdom and good fortune.",
+      "price": 2800,
+      "category": "Metal Crafts",
+      "images": [
+        "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800"
+      ],
+      "artisan": {
+        "id": "artisan-002",
+        "name": "Mangal Karmakar",
+        "location": "Ranchi",
+        "avatar": "https://randomuser.me/api/portraits/men/22.jpg"
+      },
+      "rating": 4.8,
+      "reviewCount": 78,
+      "inStock": true,
+      "craftStory": "Dokra is a 4000-year-old metalworking tradition. Each piece is unique as the clay mold is broken to reveal the brass artwork inside.",
+      "materials": ["Brass", "Beeswax", "Clay"],
+      "dimensions": "8 x 6 x 4 inches"
+    },
+    {
+      "id": "prod-003",
+      "title": "Tussar Silk Saree - Natural Dyed",
+      "description": "Luxurious Tussar silk saree with traditional tribal motifs. Naturally dyed using plant-based colors.",
+      "price": 8500,
+      "originalPrice": 10000,
+      "category": "Textiles",
+      "images": [
+        "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800"
+      ],
+      "artisan": {
+        "id": "artisan-003",
+        "name": "Lakshmi Weavers Collective",
+        "location": "Giridih",
+        "avatar": "https://randomuser.me/api/portraits/women/23.jpg"
+      },
+      "rating": 4.9,
+      "reviewCount": 112,
+      "inStock": true,
+      "craftStory": "Jharkhand's Tussar silk is known as 'Kosa' and is produced by silkworms feeding on native trees. The golden luster is natural and unique to this region.",
+      "materials": ["Tussar Silk", "Natural Dyes", "Handwoven"],
+      "dimensions": "6.5 meters with blouse piece"
+    },
+    {
+      "id": "prod-004",
+      "title": "Bamboo Craft Storage Basket",
+      "description": "Intricately woven bamboo basket with tribal patterns. Functional art piece for storage or decoration.",
+      "price": 1200,
+      "category": "Bamboo Crafts",
+      "images": [
+        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+      ],
+      "artisan": {
+        "id": "artisan-004",
+        "name": "Budhram Munda",
+        "location": "Khunti",
+        "avatar": "https://randomuser.me/api/portraits/men/24.jpg"
+      },
+      "rating": 4.7,
+      "reviewCount": 34,
+      "inStock": true,
+      "craftStory": "Bamboo weaving is a traditional skill passed down through generations of Munda families. Each basket takes 2-3 days to complete.",
+      "materials": ["Local Bamboo", "Natural Lacquer"],
+      "dimensions": "12 x 10 x 8 inches"
+    },
+    {
+      "id": "prod-005",
+      "title": "Khovar Art Wall Hanging",
+      "description": "Traditional Khovar wedding art rendered on handmade paper. Features sacred marriage symbols.",
+      "price": 3200,
+      "category": "Paintings",
+      "images": [
+        "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800"
+      ],
+      "artisan": {
+        "id": "artisan-005",
+        "name": "Parvati Devi",
+        "location": "Hazaribagh",
+        "avatar": "https://randomuser.me/api/portraits/women/25.jpg"
+      },
+      "rating": 4.8,
+      "reviewCount": 29,
+      "inStock": true,
+      "craftStory": "Khovar art is traditionally created on the walls of wedding chambers. The geometric patterns symbolize fertility and marital bliss.",
+      "materials": ["Handmade Paper", "Natural Pigments", "Charcoal"],
+      "dimensions": "18 x 24 inches"
+    },
+    {
+      "id": "prod-006",
+      "title": "Stone Carved Tribal Deity",
+      "description": "Hand-carved stone sculpture of a Sarna deity. Traditional tribal religious art.",
+      "price": 5500,
+      "category": "Stone Crafts",
+      "images": [
+        "https://images.unsplash.com/photo-1582561971729-b5c5f6f2d5f5?w=800"
+      ],
+      "artisan": {
+        "id": "artisan-006",
+        "name": "Shankar Mahato",
+        "location": "Dumka",
+        "avatar": "https://randomuser.me/api/portraits/men/26.jpg"
+      },
+      "rating": 4.9,
+      "reviewCount": 18,
+      "inStock": true,
+      "craftStory": "Sarna worship is central to tribal spirituality. This sculpture represents the deity of the sacred grove, carved from local granite.",
+      "materials": ["Granite Stone", "Natural Polish"],
+      "dimensions": "12 x 8 x 6 inches"
+    },
+    {
+      "id": "prod-007",
+      "title": "Tribal Terracotta Pot Set",
+      "description": "Set of 3 hand-molded terracotta pots with traditional tribal designs. Perfect for plants or decoration.",
+      "price": 1800,
+      "originalPrice": 2200,
+      "category": "Pottery",
+      "images": [
+        "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800"
+      ],
+      "artisan": {
+        "id": "artisan-007",
+        "name": "Kali Kumhar",
+        "location": "Gumla",
+        "avatar": "https://randomuser.me/api/portraits/men/27.jpg"
+      },
+      "rating": 4.6,
+      "reviewCount": 56,
+      "inStock": true,
+      "craftStory": "The Kumhar community has been making pottery for generations. Each pot is fired in traditional kilns and decorated with natural colors.",
+      "materials": ["Local Clay", "Natural Pigments", "Traditional Firing"],
+      "dimensions": "Small: 4in, Medium: 6in, Large: 8in"
+    },
+    {
+      "id": "prod-008",
+      "title": "Handwoven Tribal Shawl",
+      "description": "Warm woolen shawl with traditional tribal motifs. Handwoven on traditional looms.",
+      "price": 3500,
+      "category": "Textiles",
+      "images": [
+        "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=800"
+      ],
+      "artisan": {
+        "id": "artisan-008",
+        "name": "Sushila Oraon",
+        "location": "Gumla",
+        "avatar": "https://randomuser.me/api/portraits/women/28.jpg"
+      },
+      "rating": 4.8,
+      "reviewCount": 42,
+      "inStock": true,
+      "craftStory": "This shawl is woven using techniques passed down through generations. The geometric patterns tell stories of tribal mythology.",
+      "materials": ["Sheep Wool", "Natural Dyes", "Hand Spun Thread"],
+      "dimensions": "6 x 2.5 feet"
+    },
+    {
+      "id": "prod-009",
+      "title": "Lac Bangle Set",
+      "description": "Set of 6 colorful lac bangles with traditional tribal designs. Handcrafted using ancient techniques.",
+      "price": 450,
+      "category": "Jewelry",
+      "images": [
+        "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800"
+      ],
+      "artisan": {
+        "id": "artisan-009",
+        "name": "Jamuna Devi",
+        "location": "Ranchi",
+        "avatar": "https://randomuser.me/api/portraits/women/29.jpg"
+      },
+      "rating": 4.5,
+      "reviewCount": 89,
+      "inStock": true,
+      "craftStory": "Lac bangles are a traditional adornment in tribal marriages. The intricate patterns are created using heated lac and skilled hands.",
+      "materials": ["Natural Lac", "Colored Pigments", "Metal Core"],
+      "dimensions": "Standard size (2.4 inches diameter)"
+    },
+    {
+      "id": "prod-010",
+      "title": "Tribal Musical Drum - Mandar",
+      "description": "Traditional Mandar drum used in Santhali folk music. Handcrafted with authentic materials.",
+      "price": 6500,
+      "category": "Musical Instruments",
+      "images": [
+        "https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?w=800"
+      ],
+      "artisan": {
+        "id": "artisan-010",
+        "name": "Soren Tudu",
+        "location": "Dumka",
+        "avatar": "https://randomuser.me/api/portraits/men/30.jpg"
+      },
+      "rating": 4.9,
+      "reviewCount": 23,
+      "inStock": true,
+      "craftStory": "The Mandar is central to Santhali celebrations and rituals. This drum is made using traditional methods and local materials.",
+      "materials": ["Mango Wood", "Goat Leather", "Natural Ropes"],
+      "dimensions": "18 x 10 inches"
+    }
+  ],
+  "meta": {
+    "total": 10,
+    "page": 1,
+    "limit": 10,
+    "totalPages": 1
+  }
+}

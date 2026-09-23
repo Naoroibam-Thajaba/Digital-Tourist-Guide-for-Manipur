@@ -1,0 +1,121 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "03 - Routing & Navigation",
+  "description": "Learn how users move between pages in the app. Routing connects URLs to the pages they see.",
+  "steps": [
+    {
+      "title": "What is Routing?",
+      "file": "src/App.tsx",
+      "line": 1,
+      "description": "## What is Routing?\n\n**Routing** is how a website knows which page to show based on the URL.\n\n### Real-world example:\nWhen you type `amazon.com/cart` you see your shopping cart. When you type `amazon.com/orders` you see your orders. That's routing!\n\n### How it works in our app:\n| URL | What you see |\n|-----|-------------|\n| `/` | Home page |\n| `/homestays` | List of homestays |\n| `/homestays/123` | Details of homestay #123 |\n| `/login` | Login page |\n\n### Why use routing?\n- **Bookmarkable pages** - Users can save and share links\n- **Browser navigation** - Back/forward buttons work\n- **Clean URLs** - Easy to understand addresses"
+    },
+    {
+      "title": "React Router Setup",
+      "file": "src/main.tsx",
+      "line": 10,
+      "description": "## Setting Up React Router\n\nWe use a library called **React Router** to handle routing.\n\n### What you see here:\n```typescript\nimport { BrowserRouter } from 'react-router';\n```\n\n### What is BrowserRouter?\nIt's like the \"brain\" that watches the URL and tells React which page to show.\n\n### How it's set up:\n```typescript\n<BrowserRouter>\n  <App />\n</BrowserRouter>\n```\n\nEverything inside `BrowserRouter` can use routing features like:\n- Links that change the URL\n- Reading the current URL\n- Moving to different pages"
+    },
+    {
+      "title": "The App Component - Route Hub",
+      "file": "src/App.tsx",
+      "line": 33,
+      "description": "## The App Component\n\nThis is where all routes are defined. Think of it as a **traffic controller** that directs users to the right page.\n\n### The basic structure:\n```typescript\nconst App = () => {\n  return (\n    <Routes>\n      {/* All route definitions go here */}\n    </Routes>\n  );\n};\n```\n\n### What happens when someone visits your site:\n1. User types a URL (like `/homestays`)\n2. React Router looks through all `<Route>` elements\n3. Finds the matching one\n4. Shows that page!"
+    },
+    {
+      "title": "Defining Routes",
+      "file": "src/App.tsx",
+      "line": 38,
+      "description": "## Defining a Route\n\nEach `<Route>` connects a URL path to a page component.\n\n### The syntax:\n```typescript\n<Route path=\"/homestays\" element={<Homestays />} />\n```\n\n### Breaking it down:\n| Part | What it means |\n|------|---------------|\n| `path` | The URL that triggers this route |\n| `element` | The component to display |\n\n### Special routes:\n\n**Index route** (home page):\n```typescript\n<Route index element={<Home />} />\n```\nThe `index` keyword means \"show this when the parent path is visited.\"\n\n**Catch-all route** (404 page):\n```typescript\n<Route path=\"*\" element={<NotFound />} />\n```\nThe `*` matches any URL that doesn't match other routes."
+    },
+    {
+      "title": "Layouts - Shared Page Structure",
+      "file": "src/App.tsx",
+      "line": 40,
+      "description": "## Layouts: Wrapping Pages\n\nA **layout** is a wrapper that adds common elements to pages.\n\n### Example: MainLayout\n```typescript\n<Route element={<MainLayout />}>\n  <Route index element={<Home />} />\n  <Route path=\"homestays\" element={<Homestays />} />\n</Route>\n```\n\n### What this does:\nBoth `Home` and `Homestays` pages will have:\n- The Navbar at the top\n- The Footer at the bottom\n- The same container styling\n\n### Why use layouts?\n- **Don't repeat yourself** - Write navbar once, use everywhere\n- **Consistency** - All pages look similar\n- **Easy updates** - Change the layout, all pages update"
+    },
+    {
+      "title": "Nested Routes Explained",
+      "file": "src/App.tsx",
+      "line": 41,
+      "description": "## Nested Routes\n\nRoutes can be **nested** inside each other.\n\n### How it works:\n```typescript\n<Route element={<MainLayout />}>      {/* Parent */}\n  <Route index element={<Home />} />  {/* Child 1 */}\n  <Route path=\"homestays\" ... />      {/* Child 2 */}\n</Route>\n```\n\n### The result:\n- Visit `/` → Shows `MainLayout` with `Home` inside\n- Visit `/homestays` → Shows `MainLayout` with `Homestays` inside\n\n### Think of it like:\n```\n┌─────────────────────────┐\n│      MainLayout         │\n│  ┌─────────────────┐    │\n│  │   Your Page     │    │\n│  │   (changes)     │    │\n│  └─────────────────┘    │\n└─────────────────────────┘\n```\n\nThe outer box (MainLayout) stays, the inner content changes."
+    },
+    {
+      "title": "Dynamic Routes - URLs with Variables",
+      "file": "src/App.tsx",
+      "line": 43,
+      "description": "## Dynamic Routes\n\nSome URLs have **variable parts**. For example:\n- `/homestays/1` - Homestay with ID 1\n- `/homestays/42` - Homestay with ID 42\n- `/homestays/abc` - Homestay with ID abc\n\n### The syntax:\n```typescript\n<Route path=\"homestays/:homestayId\" element={<HomestayDetail />} />\n```\n\n### The colon (`:`) means:\n\"This part can be anything, and save it as `homestayId`.\"\n\n### Common examples:\n| Route | URL Example | Captured Value |\n|-------|-------------|----------------|\n| `users/:userId` | `/users/123` | userId = \"123\" |\n| `products/:productId` | `/products/abc` | productId = \"abc\" |\n| `guides/:guideId` | `/guides/5` | guideId = \"5\" |"
+    },
+    {
+      "title": "Reading URL Parameters",
+      "file": "src/components/pages/Booking/Booking.tsx",
+      "line": 31,
+      "description": "## Using URL Parameters in Components\n\nOnce you have a dynamic route, you need to **read** the parameter in your component.\n\n### The useParams hook:\n```typescript\nimport { useParams } from 'react-router';\n\nconst { homestayId } = useParams<{ homestayId: string }>();\n```\n\n### What this does:\n1. Looks at the current URL\n2. Extracts the variable part\n3. Gives it to your component\n\n### Example:\nIf URL is `/booking/42`:\n- `homestayId` will be `\"42\"`\n\nNow you can use this ID to fetch data for that specific homestay!"
+    },
+    {
+      "title": "Programmatic Navigation",
+      "file": "src/components/pages/Booking/Booking.tsx",
+      "line": 33,
+      "description": "## Navigating with Code\n\nSometimes you need to change pages **from JavaScript code** (not by clicking a link).\n\n### The useNavigate hook:\n```typescript\nimport { useNavigate } from 'react-router';\n\nconst navigate = useNavigate();\n\n// Later in your code:\nnavigate('/checkout');\n```\n\n### When to use this:\n- After form submission: `navigate('/thank-you')`\n- After login: `navigate('/dashboard')`\n- On button click that needs logic first\n\n### Example from this file:\n```typescript\nconst handleSubmit = (e) => {\n  e.preventDefault();\n  // Do some processing...\n  navigate('/checkout');  // Then go to checkout\n};\n```"
+    },
+    {
+      "title": "The Link Component",
+      "file": "src/components/organisms/Navbar/Navbar.tsx",
+      "line": 61,
+      "description": "## Creating Clickable Links\n\nTo create links between pages, use the `Link` component.\n\n### The syntax:\n```typescript\nimport { Link } from 'react-router';\n\n<Link to=\"/homestays\">View Homestays</Link>\n```\n\n### Why not use regular `<a>` tags?\n| `<a href=\"...\">` | `<Link to=\"...\">` |\n|------------------|-------------------|\n| Full page reload | Instant, smooth transition |\n| Slow | Fast |\n| Loses app state | Keeps app state |\n\n### Link is like:\nA special anchor tag that knows how to navigate within React apps without reloading the whole page."
+    },
+    {
+      "title": "NavLink - Links with Active Styling",
+      "file": "src/components/organisms/Navbar/Navbar.tsx",
+      "line": 74,
+      "description": "## NavLink: The Smarter Link\n\n`NavLink` is like `Link`, but it knows when it's **active**.\n\n### The syntax:\n```typescript\nimport { NavLink } from 'react-router';\n\n<NavLink\n  to=\"/homestays\"\n  className={({ isActive }) =>\n    isActive ? 'text-primary' : ''\n  }\n>\n  Homestays\n</NavLink>\n```\n\n### What makes it special:\n- When URL matches, `isActive` is `true`\n- You can style active links differently\n\n### Use cases:\n- Navigation menus (highlight current page)\n- Tab bars\n- Sidebar navigation\n\n### The result:\nUsers can see which page they're on!"
+    },
+    {
+      "title": "The Outlet Component",
+      "file": "src/components/layouts/MainLayout/MainLayout.tsx",
+      "line": 69,
+      "description": "## Outlet: Where Child Routes Appear\n\nWhen you nest routes, the `Outlet` component shows where the child content goes.\n\n### In the layout:\n```typescript\nimport { Outlet } from 'react-router';\n\nconst MainLayout = () => {\n  return (\n    <div>\n      <Navbar />\n      <main>\n        <Outlet />  {/* Child pages appear here! */}\n      </main>\n      <Footer />\n    </div>\n  );\n};\n```\n\n### What happens:\n1. User visits `/homestays`\n2. React Router finds: MainLayout → Homestays\n3. Renders MainLayout\n4. Replaces `<Outlet />` with `<Homestays />`\n\n### Think of Outlet as:\nA placeholder that says \"put the child page content here.\""
+    },
+    {
+      "title": "Multiple Layouts",
+      "file": "src/App.tsx",
+      "line": 50,
+      "description": "## Different Layouts for Different Pages\n\nNot all pages look the same. We use different layouts for different sections.\n\n### Our layouts:\n\n| Layout | Used for | What it has |\n|--------|----------|-------------|\n| **MainLayout** | Public pages | Navbar, Footer, Mobile nav |\n| **AuthLayout** | Login/Register | Split-screen design |\n| **CheckoutLayout** | Booking flow | Progress steps |\n| **DashboardLayout** | Provider pages | Sidebar navigation |\n\n### How it looks in code:\n```typescript\n<Routes>\n  <Route element={<MainLayout />}>\n    {/* Public pages */}\n  </Route>\n  \n  <Route element={<AuthLayout />}>\n    {/* Auth pages */}\n  </Route>\n  \n  <Route element={<CheckoutLayout />}>\n    {/* Checkout pages */}\n  </Route>\n</Routes>\n```"
+    },
+    {
+      "title": "Auth Layout Example",
+      "file": "src/components/layouts/AuthLayout/AuthLayout.tsx",
+      "line": 15,
+      "description": "## AuthLayout: A Different Look\n\nThe login and register pages have a special design - a **split-screen layout**.\n\n### What it shows:\n- **Left side** (desktop): Branding, logo, features\n- **Right side**: The actual form\n\n### The Outlet appears here:\n```typescript\n<div className=\"card bg-base-100\">\n  <div className=\"card-body\">\n    {children ?? <Outlet />}\n  </div>\n</div>\n```\n\n### The result:\n- `/login` shows login form inside this layout\n- `/register` shows register form inside this layout\n\nBoth pages get the same branding panel automatically!"
+    },
+    {
+      "title": "Dashboard Routes - Nested Paths",
+      "file": "src/App.tsx",
+      "line": 63,
+      "description": "## Dashboard: Nested URL Paths\n\nThe dashboard has its own sub-routes.\n\n### The structure:\n```typescript\n<Route path=\"dashboard\" element={<DashboardLayout />}>\n  <Route index element={<Dashboard />} />\n  <Route path=\"profile\" element={<Profile />} />\n</Route>\n```\n\n### The resulting URLs:\n| URL | What shows |\n|-----|------------|\n| `/dashboard` | Dashboard home (index) |\n| `/dashboard/profile` | Profile page |\n| `/dashboard/listings` | Listings page |\n\n### Notice:\n- The parent has `path=\"dashboard\"`\n- Children paths are **relative** (no leading `/`)\n- Full path becomes parent + child\n\n### Why organize this way?\n- Related pages grouped together\n- Share the same sidebar layout\n- Easy to add more dashboard pages"
+    },
+    {
+      "title": "Mobile Navigation",
+      "file": "src/components/organisms/MobileNav/MobileNav.tsx",
+      "line": 36,
+      "description": "## Mobile Navigation with NavLink\n\nThe mobile bottom navigation also uses `NavLink`.\n\n### Key detail - the `end` prop:\n```typescript\n<NavLink\n  to={item.href}\n  end={item.href === '/'}\n  className={({ isActive }) => ...}\n>\n```\n\n### What is `end`?\nFor the home route (`/`), we add `end` so it only matches **exactly** `/`.\n\nWithout `end`:\n- Visit `/homestays` → Home link is still \"active\" (because `/homestays` starts with `/`)\n\nWith `end`:\n- Visit `/homestays` → Home link is NOT active\n- Visit `/` → Home link IS active\n\n### The pattern:\nUse `end` for your home/root links!"
+    },
+    {
+      "title": "Route Comments for Documentation",
+      "file": "src/App.tsx",
+      "line": 24,
+      "description": "## Documenting Your Routes\n\nAlways add comments explaining your route structure.\n\n### Example from our code:\n```typescript\n/**\n * Route structure:\n * - Public routes (MainLayout): /, /homestays, ...\n * - Auth routes (AuthLayout): /login, /register\n * - Checkout routes (CheckoutLayout): /booking/:id, /checkout\n * - Dashboard routes (DashboardLayout): /dashboard, ...\n */\n```\n\n### Why document routes?\n- New team members understand the app structure quickly\n- Easy to find where to add new pages\n- Shows which layout each section uses\n\n### Tip:\nUpdate this comment whenever you add new routes!"
+    },
+    {
+      "title": "📋 To Do: Add a New Page with Routing",
+      "file": "src/App.tsx",
+      "line": 1,
+      "description": "## 📋 To Do: Add a New Page with Routing\n\nLet's practice by adding an \"About Us\" page to the app.\n\n---\n\n### Step 1: Create the Page Component\nCreate `src/components/pages/About/About.tsx`:\n```typescript\nexport function About() {\n  return (\n    <div className=\"container mx-auto py-12 px-4\">\n      <h1 className=\"text-4xl font-bold mb-6\">\n        About JharkhandYatra\n      </h1>\n      <p className=\"text-lg text-base-content/70\">\n        We connect travelers with authentic Jharkhand experiences.\n      </p>\n    </div>\n  );\n}\n```\n\n### Step 2: Create the Index File\nCreate `src/components/pages/About/index.ts`:\n```typescript\nexport { About } from './About';\n```\n\n### Step 3: Add the Route\nIn `src/App.tsx`, add inside the MainLayout routes:\n```typescript\nimport { About } from './components/pages/About';\n\n// Inside Routes, within MainLayout:\n<Route path=\"about\" element={<About />} />\n```\n\n### Step 4: Add Navigation Link\nIn `src/components/organisms/Navbar/Navbar.tsx`:\n```typescript\n<NavLink to=\"/about\" className=\"btn btn-ghost\">\n  About Us\n</NavLink>\n```\n\n### Step 5: Test It\n1. Run `npm run dev`\n2. Click \"About Us\" in navbar or go to `/about`\n3. Verify the page displays\n\n---\n\n## ⚠️ Watch Out For\n\n| Issue | Cause | Solution |\n|-------|-------|----------|\n| 404 on page refresh | Missing route | Ensure route is inside `<Routes>` |\n| Page shows outside layout | Route not nested | Put route inside layout's `<Route>` |\n| Link goes to wrong page | Wrong `to` prop | Check path matches route |\n| TypeScript error on import | Missing export | Check index.ts exports |\n\n---\n\n## ❌ Common Errors\n\n| Error Message | What It Means | How to Fix |\n|---------------|---------------|------------|\n| `No routes matched location` | Route not defined | Add `<Route>` in App.tsx |\n| `Element type is invalid` | Wrong import/export | Check component exports |\n| `useNavigate() outside Router` | Missing BrowserRouter | Ensure component is inside router |\n| `Cannot read 'pathname'` | useLocation outside router | Check router provider setup |\n\n---\n\n### ✅ Checklist\n- [ ] Created page component at `src/components/pages/About/`\n- [ ] Created index.ts for clean exports\n- [ ] Imported page in App.tsx\n- [ ] Added Route inside correct layout\n- [ ] Added NavLink/Link in navigation\n- [ ] Tested: page renders at `/about`\n- [ ] Tested: browser back button works\n- [ ] Tested: page refresh works"
+    },
+    {
+      "title": "Summary: The Routing Flow",
+      "file": "src/App.tsx",
+      "line": 1,
+      "description": "## Summary: How Routing Works\n\n### The complete flow:\n\n```\n1. User types URL or clicks link\n         ↓\n2. BrowserRouter catches the URL change\n         ↓\n3. Routes component finds matching Route\n         ↓\n4. Layout component renders (with Outlet)\n         ↓\n5. Page component fills the Outlet\n         ↓\n6. User sees the complete page!\n```\n\n### Key tools:\n| Tool | Purpose |\n|------|--------|\n| `BrowserRouter` | Enables routing for the app |\n| `Routes` / `Route` | Define URL-to-page mapping |\n| `Link` / `NavLink` | Create clickable navigation |\n| `Outlet` | Place child routes in layouts |\n| `useParams` | Read URL parameters |\n| `useNavigate` | Navigate with code |\n\n### Adding a new page:\n1. Create the page component in `src/components/pages/`\n2. Add a `<Route>` in `App.tsx`\n3. Add navigation links as needed\n\n---\n\n**Tour Complete!**\n\nNext: Take the **\"04 - Building Blocks\"** tour to learn how components are structured!"
+    }
+  ]
+}

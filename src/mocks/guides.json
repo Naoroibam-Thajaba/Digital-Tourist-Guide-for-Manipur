@@ -1,0 +1,185 @@
+{
+  "data": [
+    {
+      "id": "guide-001",
+      "name": "Birsa Munda",
+      "bio": "A passionate naturalist and tribal culture expert with 15 years of experience guiding tourists through Jharkhand's forests and villages. Specializes in wildlife photography tours and tribal heritage walks.",
+      "location": "Ranchi",
+      "district": "Ranchi",
+      "avatar": "https://randomuser.me/api/portraits/men/11.jpg",
+      "rating": 4.9,
+      "reviewCount": 234,
+      "languages": ["Hindi", "English", "Mundari", "Santhali"],
+      "specializations": ["Wildlife", "Tribal Culture", "Photography", "Trekking"],
+      "experience": 15,
+      "pricePerDay": 2500,
+      "tours": [
+        {
+          "id": "tour-001",
+          "title": "Betla Wildlife Safari",
+          "description": "Full day jeep safari in Betla National Park with expert wildlife spotting",
+          "duration": "8 hours",
+          "price": 3500,
+          "includes": ["Jeep Safari", "Park Entry", "Packed Lunch", "Binoculars"]
+        },
+        {
+          "id": "tour-002",
+          "title": "Tribal Village Experience",
+          "description": "Immersive visit to Munda and Oraon villages with cultural performances",
+          "duration": "6 hours",
+          "price": 2000,
+          "includes": ["Village Visit", "Traditional Lunch", "Folk Performance", "Craft Demo"]
+        }
+      ],
+      "verified": true,
+      "responseRate": 98,
+      "responseTime": "within an hour"
+    },
+    {
+      "id": "guide-002",
+      "name": "Savitri Devi",
+      "bio": "Expert on Jharkhand's religious sites and pilgrimage routes. Fluent in Sanskrit and knowledgeable about ancient temple architecture and rituals.",
+      "location": "Deoghar",
+      "district": "Deoghar",
+      "avatar": "https://randomuser.me/api/portraits/women/12.jpg",
+      "rating": 4.8,
+      "reviewCount": 189,
+      "languages": ["Hindi", "English", "Sanskrit", "Bengali"],
+      "specializations": ["Temple Tours", "Pilgrimage", "History", "Architecture"],
+      "experience": 12,
+      "pricePerDay": 2000,
+      "tours": [
+        {
+          "id": "tour-003",
+          "title": "Baidyanath Jyotirlinga Darshan",
+          "description": "Complete temple tour with rituals, history, and spiritual guidance",
+          "duration": "4 hours",
+          "price": 1500,
+          "includes": ["Temple Guide", "Ritual Assistance", "History Tour", "Prasad"]
+        },
+        {
+          "id": "tour-004",
+          "title": "Sacred Sites of Jharkhand",
+          "description": "Multi-day pilgrimage covering major temples and holy sites",
+          "duration": "3 days",
+          "price": 8000,
+          "includes": ["All Temples", "Transportation", "Accommodation", "Meals"]
+        }
+      ],
+      "verified": true,
+      "responseRate": 95,
+      "responseTime": "within 2 hours"
+    },
+    {
+      "id": "guide-003",
+      "name": "Ranjit Oraon",
+      "bio": "Adventure sports enthusiast and certified trekking guide. Expert in organizing multi-day treks, rock climbing, and rappelling expeditions in Jharkhand's hill regions.",
+      "location": "Netarhat",
+      "district": "Latehar",
+      "avatar": "https://randomuser.me/api/portraits/men/13.jpg",
+      "rating": 4.7,
+      "reviewCount": 156,
+      "languages": ["Hindi", "English", "Kurukh"],
+      "specializations": ["Trekking", "Adventure Sports", "Camping", "Rock Climbing"],
+      "experience": 10,
+      "pricePerDay": 3000,
+      "tours": [
+        {
+          "id": "tour-005",
+          "title": "Netarhat Sunrise Trek",
+          "description": "Early morning trek to Magnolia Point for the famous Netarhat sunrise",
+          "duration": "5 hours",
+          "price": 1200,
+          "includes": ["Guide", "Hot Breakfast", "Sunrise Viewing", "Photo Spots"]
+        },
+        {
+          "id": "tour-006",
+          "title": "Lodh Falls Adventure",
+          "description": "Full day trek to Jharkhand's highest waterfall with swimming",
+          "duration": "10 hours",
+          "price": 2500,
+          "includes": ["Trekking Gear", "Packed Meals", "Swimming", "Photography"]
+        }
+      ],
+      "verified": true,
+      "responseRate": 92,
+      "responseTime": "within 4 hours"
+    },
+    {
+      "id": "guide-004",
+      "name": "Anita Mahato",
+      "bio": "Craft historian and artisan community expert. Passionate about preserving Jharkhand's traditional art forms and connecting tourists with local artisans.",
+      "location": "Hazaribagh",
+      "district": "Hazaribagh",
+      "avatar": "https://randomuser.me/api/portraits/women/14.jpg",
+      "rating": 4.9,
+      "reviewCount": 98,
+      "languages": ["Hindi", "English", "Nagpuri"],
+      "specializations": ["Handicrafts", "Art Tours", "Sohrai Painting", "Tribal Art"],
+      "experience": 8,
+      "pricePerDay": 1800,
+      "tours": [
+        {
+          "id": "tour-007",
+          "title": "Sohrai Art Workshop",
+          "description": "Hands-on experience learning traditional Sohrai wall painting",
+          "duration": "4 hours",
+          "price": 1500,
+          "includes": ["Materials", "Artist Guidance", "Take Home Art", "Refreshments"]
+        },
+        {
+          "id": "tour-008",
+          "title": "Artisan Village Trail",
+          "description": "Visit pottery, weaving, and metalwork artisan communities",
+          "duration": "6 hours",
+          "price": 2000,
+          "includes": ["Village Visits", "Craft Demos", "Local Lunch", "Shopping Guide"]
+        }
+      ],
+      "verified": true,
+      "responseRate": 100,
+      "responseTime": "within 30 minutes"
+    },
+    {
+      "id": "guide-005",
+      "name": "Kumar Santosh",
+      "bio": "Wildlife photographer and forest ranger (retired). Deep knowledge of Jharkhand's flora and fauna with special expertise in bird watching.",
+      "location": "Dalma Wildlife Sanctuary",
+      "district": "East Singhbhum",
+      "avatar": "https://randomuser.me/api/portraits/men/15.jpg",
+      "rating": 4.8,
+      "reviewCount": 145,
+      "languages": ["Hindi", "English", "Ho"],
+      "specializations": ["Bird Watching", "Wildlife Photography", "Nature Walks", "Elephant Tracking"],
+      "experience": 20,
+      "pricePerDay": 3500,
+      "tours": [
+        {
+          "id": "tour-009",
+          "title": "Dalma Elephant Trail",
+          "description": "Track wild elephants in their natural habitat with photography opportunities",
+          "duration": "6 hours",
+          "price": 4000,
+          "includes": ["Forest Entry", "Tracking Guide", "Wildlife Photography", "Safety Gear"]
+        },
+        {
+          "id": "tour-010",
+          "title": "Dawn Bird Watching",
+          "description": "Early morning bird watching tour with species identification",
+          "duration": "4 hours",
+          "price": 2000,
+          "includes": ["Binoculars", "Bird Guide Book", "Hot Chai", "Photo Assistance"]
+        }
+      ],
+      "verified": true,
+      "responseRate": 90,
+      "responseTime": "within 6 hours"
+    }
+  ],
+  "meta": {
+    "total": 5,
+    "page": 1,
+    "limit": 10,
+    "totalPages": 1
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "07 - Git Workflow & Versioning",
+  "description": "Learn how to use Git for version control, write good commit messages, and understand semantic versioning.",
+  "steps": [
+    {
+      "title": "What is Git?",
+      "file": "package.json",
+      "line": 1,
+      "description": "## What is Git?\n\n**Git** is a tool that tracks changes to your code. Think of it like \"Track Changes\" in Word, but much more powerful.\n\n### Why use Git?\n\n1. **History** - See what changed, when, and by whom\n2. **Undo mistakes** - Go back to a working version\n3. **Collaboration** - Multiple people work on the same code\n4. **Backup** - Your code is safe on GitHub\n\n### Key concepts:\n\n| Term | What it means |\n|------|---------------|\n| **Repository (Repo)** | Your project folder with Git tracking |\n| **Commit** | A saved snapshot of your changes |\n| **Branch** | A separate line of development |\n| **Push** | Upload your commits to GitHub |\n| **Pull** | Download others' commits |\n| **Merge** | Combine two branches |"
+    },
+    {
+      "title": "Branches: Working in Parallel",
+      "file": "package.json",
+      "line": 1,
+      "description": "## What are Branches?\n\nBranches let you work on features **without affecting the main code**.\n\n### Think of it like a tree:\n```\n                    feature/add-booking\n                   /\nmain ─────●────●────●────●────●\n                   \\\n                    fix/login-bug\n```\n\n### The workflow:\n\n1. **Main branch** - The stable, working code\n2. **Feature branch** - Your work in progress\n3. **Merge** - Combine your work into main\n\n### Common branch names:\n\n| Pattern | Example | Used for |\n|---------|---------|----------|\n| `feature/` | `feature/add-search` | New features |\n| `fix/` | `fix/login-error` | Bug fixes |\n| `chore/` | `chore/update-deps` | Maintenance |\n| `docs/` | `docs/api-readme` | Documentation |"
+    },
+    {
+      "title": "Creating a Branch",
+      "file": "package.json",
+      "line": 1,
+      "description": "## How to Create a Branch\n\n### Step 1: Make sure you're on main\n```bash\ngit checkout main\n```\n\n### Step 2: Get the latest changes\n```bash\ngit pull\n```\n\n### Step 3: Create and switch to your branch\n```bash\ngit checkout -b feature/my-new-feature\n```\n\n### You're now on your own branch!\nAny changes you make only affect your branch, not main.\n\n### Check which branch you're on:\n```bash\ngit branch\n# Shows:\n#   main\n# * feature/my-new-feature  <-- You are here\n```"
+    },
+    {
+      "title": "Making Commits",
+      "file": "package.json",
+      "line": 5,
+      "description": "## Making a Commit\n\nA **commit** is a saved snapshot of your changes.\n\n### The commit workflow:\n\n```bash\n# 1. See what changed\ngit status\n\n# 2. Add files to commit\ngit add src/components/Button.tsx\n# Or add everything:\ngit add .\n\n# 3. Create the commit with a message\ngit commit -m \"feat: add loading state to Button\"\n```\n\n### Good commit habits:\n- **Commit often** - Small, focused changes\n- **Commit working code** - Don't commit broken code\n- **Write clear messages** - Explain what and why\n\n### Check your commits:\n```bash\ngit log --oneline\n# Shows:\n# a1b2c3d feat: add loading state to Button\n# e4f5g6h fix: correct navbar alignment\n# h7i8j9k chore: update dependencies\n```"
+    },
+    {
+      "title": "Commit Message Format",
+      "file": "package.json",
+      "line": 5,
+      "description": "## Writing Good Commit Messages\n\nWe follow a standard format:\n\n```\n<type>: <short description>\n\n[optional longer explanation]\n```\n\n### Types:\n\n| Type | When to use | Example |\n|------|-------------|--------|\n| `feat` | New feature | `feat: add booking calendar` |\n| `fix` | Bug fix | `fix: resolve login error` |\n| `docs` | Documentation | `docs: update README setup` |\n| `style` | Formatting (no logic change) | `style: fix indentation` |\n| `refactor` | Code restructure | `refactor: simplify auth logic` |\n| `test` | Add/fix tests | `test: add Button unit tests` |\n| `chore` | Maintenance | `chore: update dependencies` |\n\n### Good examples:\n```\nfeat: add search by location\nfix: prevent double booking submission\ndocs: add API documentation\nchore: bump React to version 19\n```"
+    },
+    {
+      "title": "Semantic Versioning",
+      "file": "package.json",
+      "line": 5,
+      "description": "## Semantic Versioning (SemVer)\n\nVersion numbers have meaning! Look at: **0.8.1**\n\n```\n    0    .    8    .    1\n    ↓         ↓         ↓\n  MAJOR    MINOR     PATCH\n```\n\n### When to change each:\n\n| Part | Change when... | Example |\n|------|---------------|--------|\n| **MAJOR** | Breaking changes (users must update code) | `1.0.0 → 2.0.0` |\n| **MINOR** | New features (backward compatible) | `1.0.0 → 1.1.0` |\n| **PATCH** | Bug fixes | `1.0.0 → 1.0.1` |\n\n### Real examples:\n- `0.8.0` → `0.8.1` : Fixed a small bug (PATCH)\n- `0.8.1` → `0.9.0` : Added new homestay search (MINOR)\n- `0.9.0` → `1.0.0` : First stable release (MAJOR)\n\n### Version 0.x.x means:\n\"This is still in development, things might change.\""
+    },
+    {
+      "title": "Updating the Version",
+      "file": "package.json",
+      "line": 5,
+      "description": "## How to Update the Version\n\n### Using npm commands:\n```bash\n# Increment patch (0.8.1 → 0.8.2)\nnpm version patch\n\n# Increment minor (0.8.1 → 0.9.0)\nnpm version minor\n\n# Increment major (0.8.1 → 1.0.0)\nnpm version major\n```\n\n### These commands:\n1. Update `version` in `package.json`\n2. Create a commit\n3. Create a Git tag\n\n### Tags mark releases:\n```bash\ngit tag\n# Shows:\n# v0.7.0\n# v0.7.1\n# v0.8.0\n# v0.8.1\n```\n\n### When to version:\n- After completing a feature set\n- Before deploying to production\n- When releasing to users"
+    },
+    {
+      "title": "Pushing to GitHub",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Pushing Your Work to GitHub\n\nAfter committing, **push** to upload your changes to GitHub.\n\n### First time pushing a branch:\n```bash\ngit push -u origin feature/my-feature\n```\nThe `-u` sets up tracking so next time you can just use `git push`.\n\n### After that:\n```bash\ngit push\n```\n\n### What happens:\n1. Your commits go to GitHub\n2. Others can see your work\n3. Your code is backed up\n\n### Push tags too:\n```bash\ngit push --tags\n```\n\n### Remember:\n- Push often to back up your work\n- Don't push broken code to main\n- Use feature branches!"
+    },
+    {
+      "title": "Creating a Pull Request",
+      "file": "package.json",
+      "line": 1,
+      "description": "## What is a Pull Request (PR)?\n\nA **Pull Request** is a request to merge your branch into main.\n\n### Why use PRs?\n- **Code review** - Others check your code\n- **Discussion** - Talk about changes\n- **Quality** - Catch bugs before they reach main\n\n### Creating a PR:\n\n1. Push your branch to GitHub\n2. Go to the repository on GitHub\n3. Click \"Compare & pull request\"\n4. Fill in:\n   - **Title**: Short description\n   - **Description**: What you changed and why\n5. Click \"Create pull request\"\n\n### Example PR title:\n```\nfeat: Add search by location feature\n```\n\n### Example description:\n```\n## What I changed\n- Added location dropdown to search\n- Connected to Google Maps API\n\n## How to test\n1. Go to search page\n2. Select a location\n3. Click search\n```"
+    },
+    {
+      "title": "The Review Process",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Code Review\n\nAfter you create a PR, team members **review** your code.\n\n### Reviewers might:\n- ✅ **Approve** - Code looks good!\n- 💬 **Comment** - Ask questions or suggest changes\n- ❌ **Request changes** - Something needs to be fixed\n\n### Responding to feedback:\n1. Read comments carefully\n2. Make requested changes\n3. Push new commits to your branch\n4. The PR updates automatically!\n\n### Tips for good reviews:\n\n**As a writer:**\n- Keep PRs small (easier to review)\n- Write clear descriptions\n- Respond to feedback promptly\n\n**As a reviewer:**\n- Be kind and constructive\n- Explain why, not just what\n- Approve if it's good enough, not perfect"
+    },
+    {
+      "title": "Merging Your PR",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Merging into Main\n\nOnce approved, you can **merge** your PR.\n\n### On GitHub:\n1. Click \"Merge pull request\"\n2. Confirm the merge\n3. Delete your feature branch (optional, recommended)\n\n### After merging:\n- Your code is now in main!\n- Others can pull your changes\n- Your feature branch can be deleted\n\n### Clean up locally:\n```bash\n# Switch back to main\ngit checkout main\n\n# Get the merged changes\ngit pull\n\n# Delete your local feature branch\ngit branch -d feature/my-feature\n```\n\n### Congratulations!\nYour code is now part of the project! 🎉"
+    },
+    {
+      "title": "Common Git Commands",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Git Command Reference\n\n### Everyday commands:\n\n```bash\n# See what changed\ngit status\n\n# See line-by-line changes\ngit diff\n\n# Add files to commit\ngit add <file>\ngit add .\n\n# Commit changes\ngit commit -m \"message\"\n\n# Push to GitHub\ngit push\n\n# Get latest from GitHub\ngit pull\n```\n\n### Branch commands:\n```bash\n# See all branches\ngit branch\n\n# Create and switch to branch\ngit checkout -b branch-name\n\n# Switch to existing branch\ngit checkout branch-name\n\n# Delete a branch\ngit branch -d branch-name\n```\n\n### Viewing history:\n```bash\n# See commit history\ngit log --oneline\n\n# See who changed each line\ngit blame file.tsx\n```"
+    },
+    {
+      "title": "Our Development Workflow",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Our Team's Workflow\n\n### For each feature or fix:\n\n```\n1. Create branch from main\n         ↓\n2. Write code & commit often\n         ↓\n3. Push branch to GitHub\n         ↓\n4. Create Pull Request\n         ↓\n5. Team reviews code\n         ↓\n6. Make requested changes\n         ↓\n7. Get approval\n         ↓\n8. Merge to main\n         ↓\n9. Delete feature branch\n         ↓\n10. Update version if releasing\n```\n\n### Branch naming:\n- `feature/add-booking-calendar`\n- `fix/login-redirect-bug`\n- `chore/update-dependencies`\n\n### Commit messages:\n- `feat: add date picker to booking`\n- `fix: resolve infinite loop in search`\n- `chore: bump version to 0.8.1`"
+    },
+    {
+      "title": "Handling Conflicts",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Merge Conflicts\n\nSometimes two people change the same code. This creates a **conflict**.\n\n### What a conflict looks like:\n```\n<<<<<<< HEAD\nconst color = 'blue';\n=======\nconst color = 'red';\n>>>>>>> feature/change-color\n```\n\n### How to fix:\n\n1. **Decide** which version to keep (or combine both)\n2. **Remove** the conflict markers (`<<<<`, `====`, `>>>>`)\n3. **Save** the file\n4. **Commit** the resolved file\n\n### Fixed version:\n```\nconst color = 'blue';  // Or 'red', or whatever is correct\n```\n\n### Tips to avoid conflicts:\n- Pull from main often\n- Keep branches short-lived\n- Communicate with team about who's working on what"
+    },
+    {
+      "title": "📋 To Do: Contribute Your First Feature",
+      "file": "package.json",
+      "line": 1,
+      "description": "## 📋 To Do: Contribute Your First Feature\n\nLet's practice the complete Git workflow by adding a small feature.\n\n---\n\n### Step 1: Update Main Branch\n```bash\ngit checkout main\ngit pull origin main\n```\n\n### Step 2: Create Feature Branch\n```bash\ngit checkout -b feature/add-loading-spinner\n```\n\n### Step 3: Make Changes\nAdd a loading spinner component or improve an existing feature.\n\n### Step 4: Stage and Commit\n```bash\n# Check what changed\ngit status\ngit diff\n\n# Stage changes\ngit add src/components/atoms/Spinner/\n\n# Commit with proper message\ngit commit -m \"feat: add reusable loading spinner component\n\n- Created Spinner atom with size variants\n- Added animation using TailwindCSS\n- Exported from atoms index\"\n```\n\n### Step 5: Push to GitHub\n```bash\ngit push -u origin feature/add-loading-spinner\n```\n\n### Step 6: Create Pull Request\n1. Go to GitHub repository\n2. Click \"Compare & pull request\"\n3. Fill in description:\n```markdown\n## Summary\nAdded a reusable loading spinner component.\n\n## Changes\n- Created Spinner.tsx with xs/sm/md/lg sizes\n- Uses DaisyUI loading component\n- Added SpinnerProps interface\n\n## Testing\n- [ ] Component renders in Storybook\n- [ ] All sizes work correctly\n- [ ] TypeScript has no errors\n```\n\n### Step 7: After Approval\n```bash\n# Merge on GitHub, then locally:\ngit checkout main\ngit pull origin main\ngit branch -d feature/add-loading-spinner\n```\n\n---\n\n## ⚠️ Watch Out For\n\n| Issue | Cause | Solution |\n|-------|-------|----------|\n| Push rejected | Remote has new commits | Run `git pull --rebase` first |\n| Merge conflicts | Same code edited | Resolve conflicts, then commit |\n| Wrong branch | Committed to main | Create branch, cherry-pick commit |\n| Forgot to pull | Stale local main | Always `git pull` before branching |\n\n---\n\n## ❌ Common Errors\n\n| Error Message | What It Means | How to Fix |\n|---------------|---------------|------------|\n| `Permission denied (publickey)` | SSH not configured | Add SSH key to GitHub |\n| `Updates were rejected` | Need to pull first | `git pull --rebase origin main` |\n| `Merge conflict in X` | Same lines edited | Open file, resolve `<<<<` markers |\n| `Branch 'X' not found` | Branch doesn't exist | Check branch name spelling |\n| `Nothing to commit` | No changes staged | Use `git add` first |\n\n---\n\n### ✅ Checklist\n- [ ] Main branch is up to date\n- [ ] Created feature branch with good name\n- [ ] Made focused changes (one feature)\n- [ ] Committed with proper type prefix\n- [ ] Pushed to remote\n- [ ] Created PR with description\n- [ ] Addressed review feedback\n- [ ] Merged and deleted feature branch\n- [ ] Updated local main after merge"
+    },
+    {
+      "title": "Summary: The Git Workflow",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Summary\n\n### What you learned:\n\n1. **Git basics** - Repository, commits, branches\n2. **Branching** - Work on features separately\n3. **Commit messages** - `type: description` format\n4. **Semantic versioning** - MAJOR.MINOR.PATCH\n5. **Pull requests** - Request to merge code\n6. **Code review** - Get feedback before merging\n\n### Quick reference:\n\n```bash\n# Start new feature\ngit checkout main\ngit pull\ngit checkout -b feature/my-feature\n\n# Work on it\ngit add .\ngit commit -m \"feat: add feature\"\n\n# Share it\ngit push -u origin feature/my-feature\n\n# Then create PR on GitHub!\n```\n\n### Version bumping:\n```bash\nnpm version patch  # Bug fix\nnpm version minor  # New feature\nnpm version major  # Breaking change\n```\n\n---\n\n**Congratulations!**\n\nYou've completed all the tours! You now have a solid understanding of:\n1. How to set up the project\n2. How the code is organized\n3. How components are built\n4. How state is managed\n5. How data is fetched\n6. How to contribute with Git\n\n**Happy coding!** 🚀"
+    }
+  ]
+}

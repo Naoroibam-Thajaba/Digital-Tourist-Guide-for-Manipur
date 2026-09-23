@@ -1,0 +1,127 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "04 - Building Blocks (Atomic Design)",
+  "description": "Learn how we build the user interface by combining small pieces into bigger ones - like building with LEGO blocks!",
+  "steps": [
+    {
+      "title": "The LEGO Approach",
+      "file": "src/components/atoms/Button/Button.tsx",
+      "line": 1,
+      "description": "## Building UIs Like LEGO\n\nImagine building a house with LEGO:\n1. You start with **individual bricks** (smallest pieces)\n2. Combine bricks into **small structures** (a window, a door)\n3. Combine structures into **rooms** (a bedroom, a kitchen)\n4. Combine rooms into a **complete house**\n\n### We build websites the same way!\n\nThis approach is called **Atomic Design**:\n\n| Level | LEGO Equivalent | Web Example |\n|-------|----------------|-------------|\n| **Atoms** | Single bricks | Button, Icon, Input |\n| **Molecules** | Small structures | Search bar, Card |\n| **Organisms** | Rooms | Navigation, Footer |\n| **Layouts** | Floor plans | Page template |\n| **Pages** | Complete house | Home page |\n\n### Why build this way?\n- Small pieces are **easier to understand**\n- You can **reuse** pieces everywhere\n- Changes in one place **update everywhere**"
+    },
+    {
+      "title": "Atoms: The Smallest Pieces",
+      "file": "src/components/atoms/Button/Button.tsx",
+      "line": 1,
+      "description": "## What are Atoms?\n\nAtoms are the **smallest, most basic** building blocks. They can't be broken down further.\n\n### Real-world atoms in our app:\n- A **Button** you can click\n- An **Icon** (like ♥ or ★)\n- A text **Input** box\n- A **Rating** (stars)\n- A **Price** display\n\n### Characteristics of atoms:\n1. **Simple** - Does one thing only\n2. **Reusable** - Used in many places\n3. **Independent** - Works on its own\n\n### Example:\nA button can say \"Book Now\", \"Login\", or \"Add to Cart\". The same Button atom is used everywhere, just with different text and colors!"
+    },
+    {
+      "title": "Button Component",
+      "file": "src/components/atoms/Button/Button.tsx",
+      "line": 9,
+      "description": "## The Button Atom\n\nLet's look at a real atom - the Button!\n\n### What can you customize?\n- **Size**: Extra small, small, medium, large, extra large\n- **Color**: Primary (red), secondary (gold), green, blue, etc.\n- **Style**: Solid, outline, ghost (transparent)\n- **Loading**: Show a spinner while something is happening\n\n### Using the Button:\n```tsx\n<Button size=\"md\" variant=\"primary\">\n  Book Now\n</Button>\n\n<Button size=\"sm\" variant=\"secondary\" buttonStyle=\"outline\">\n  Learn More\n</Button>\n\n<Button loading={true}>\n  Please wait...\n</Button>\n```\n\n### One component, many uses!\nThe same Button code is used for \"Login\", \"Book Now\", \"Add to Cart\", and every other button in the app."
+    },
+    {
+      "title": "Button Props",
+      "file": "src/components/atoms/Button/ButtonProps.ts",
+      "line": 1,
+      "description": "## Component Props (Options)\n\nProps are the **options** you can pass to a component. Think of them like settings.\n\n### Button has these options:\n\n```typescript\ninterface ButtonProps {\n  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';  // How big?\n  variant?: 'primary' | 'secondary' | ...;   // What color?\n  buttonStyle?: 'solid' | 'outline' | ...;   // What style?\n  loading?: boolean;                          // Show spinner?\n  disabled?: boolean;                         // Clickable or not?\n  children: ReactNode;                        // The text inside\n}\n```\n\n### The `?` means optional:\nIf you don't provide a value, a default is used.\n\n### Why define props?\n- **TypeScript catches errors** - Can't pass invalid values\n- **Autocomplete** - Editor suggests valid options\n- **Documentation** - Props tell you how to use the component"
+    },
+    {
+      "title": "Icon Atom",
+      "file": "src/components/atoms/Icon/Icon.tsx",
+      "line": 1,
+      "description": "## The Icon Atom\n\nIcons are small pictures that communicate meaning quickly.\n\n### Examples:\n- ❤️ Heart = Favorite/Like\n- ⭐ Star = Rating\n- 📍 Pin = Location\n- 🔍 Magnifying glass = Search\n\n### Using Icons:\n```tsx\n<Icon name=\"favorite\" />\n<Icon name=\"star\" color=\"warning\" />\n<Icon name=\"location_on\" size=\"lg\" />\n```\n\n### We use Google Material Icons:\nInstead of creating our own, we use icons from Google. Over 2,000 icons available!\n\n### Why icons matter:\n- **Universal understanding** - A heart means \"like\" everywhere\n- **Save space** - An icon is smaller than text\n- **Visual appeal** - Makes the app look modern"
+    },
+    {
+      "title": "Rating Atom",
+      "file": "src/components/atoms/Rating/Rating.tsx",
+      "line": 1,
+      "description": "## The Rating Atom\n\nShows star ratings like: ★★★★☆ (4 out of 5)\n\n### Two modes:\n\n**Read-only mode** (for display):\n```tsx\n<Rating value={4.5} readOnly />\n// Shows: ★★★★½\n```\n\n**Interactive mode** (user can click):\n```tsx\n<Rating \n  value={rating} \n  onChange={(newValue) => setRating(newValue)} \n/>\n// User can click to set rating\n```\n\n### Why a dedicated Rating component?\n- **Consistency** - All ratings look the same\n- **Accessibility** - Works with keyboard\n- **Reusable** - Used for homestays, guides, products"
+    },
+    {
+      "title": "Price Atom",
+      "file": "src/components/atoms/Price/Price.tsx",
+      "line": 1,
+      "description": "## The Price Atom\n\nDisplays money amounts in Indian Rupees (₹).\n\n### Features:\n\n**Basic price:**\n```tsx\n<Price amount={2500} />\n// Shows: ₹2,500\n```\n\n**With time period:**\n```tsx\n<Price amount={2500} period=\"per night\" />\n// Shows: ₹2,500 per night\n```\n\n**With discount (original price crossed out):**\n```tsx\n<Price amount={1800} originalAmount={2200} />\n// Shows: ₹1,800 ₹2,200 (2,200 is crossed out)\n```\n\n### Why a dedicated Price component?\n- **Formatting** - Handles commas (2,500 not 2500)\n- **Currency** - Always shows ₹ symbol\n- **Consistency** - All prices look the same across the app"
+    },
+    {
+      "title": "Skeleton Atom",
+      "file": "src/components/atoms/Skeleton/Skeleton.tsx",
+      "line": 1,
+      "description": "## The Skeleton Atom\n\nShows a **placeholder** while content is loading.\n\n### What is it?\nYou've seen this on Facebook, YouTube, etc. - gray boxes that pulse while the real content loads. This is called a \"skeleton screen\".\n\n### Why use skeletons?\n- **Better than spinners** - Users see the page structure\n- **Feels faster** - Users feel like something is happening\n- **Professional look** - Modern UX pattern\n\n### Types:\n```tsx\n// For images/cards\n<Skeleton variant=\"block\" width={200} height={150} />\n\n// For text lines\n<Skeleton variant=\"text\" count={3} />\n\n// For profile pictures\n<Skeleton variant=\"circle\" size={50} />\n```\n\n### Where we use it:\nWhen fetching homestays, we show skeleton cards until the real data arrives."
+    },
+    {
+      "title": "Molecules: Combining Atoms",
+      "file": "src/components/molecules/ListingCard/ListingCard.tsx",
+      "line": 1,
+      "description": "## What are Molecules?\n\nMolecules are made by **combining atoms** together into useful groups.\n\n### The ListingCard Molecule\n\nThis card is built from:\n- An image (HTML element)\n- **Badge** atom (\"Superhost\" label)\n- **Icon** atom (heart for saving, pin for location)\n- **Rating** atom (star rating)\n- **Price** atom (₹2,500/night)\n- Text elements (title, location)\n\n### Key principle:\nMolecules combine atoms, but they're still **simple and reusable**.\n\n### One card, many uses:\nThe same ListingCard shows:\n- Homestays\n- Tour guides\n- Products\n\nWe just pass different data!"
+    },
+    {
+      "title": "ListingCard Structure",
+      "file": "src/components/molecules/ListingCard/ListingCard.tsx",
+      "line": 50,
+      "description": "## Building a ListingCard\n\nHere's what the card looks like in code:\n\n```tsx\n<div className=\"card\">\n  {/* Top: Image with save button */}\n  <figure>\n    <img src={image} alt={title} />\n    <button className=\"save-button\">\n      <Icon name=\"favorite\" />  {/* Atom! */}\n    </button>\n    <Badge>Superhost</Badge>  {/* Atom! */}\n  </figure>\n  \n  {/* Bottom: Details */}\n  <div className=\"card-body\">\n    <h3>{title}</h3>\n    <p><Icon name=\"location_on\" /> {location}</p>  {/* Atom! */}\n    <div className=\"flex\">\n      <Rating value={rating} readOnly />  {/* Atom! */}\n      <Price amount={price} />  {/* Atom! */}\n    </div>\n  </div>\n</div>\n```\n\n### Notice how we use atoms inside the molecule!"
+    },
+    {
+      "title": "SearchBar Molecule",
+      "file": "src/components/molecules/SearchBar/SearchBar.tsx",
+      "line": 1,
+      "description": "## The SearchBar Molecule\n\nAnother molecule combining atoms.\n\n### What it combines:\n- **Input** atom (the text box)\n- **Icon** atom (magnifying glass)\n- **Button** atom (search button)\n\n### Using the SearchBar:\n```tsx\n<SearchBar \n  placeholder=\"Where do you want to go?\"\n  onSearch={(query) => console.log(query)}\n/>\n```\n\n### The molecule handles:\n- User typing in the box\n- Pressing Enter or clicking Search\n- Calling your function with the search text\n\n### Why make it a molecule?\nYou could use an Input and Button separately, but combining them:\n- Keeps pages cleaner\n- Ensures consistent search UI everywhere\n- Contains the search logic in one place"
+    },
+    {
+      "title": "Organisms: Page Sections",
+      "file": "src/components/organisms/Navbar/Navbar.tsx",
+      "line": 1,
+      "description": "## What are Organisms?\n\nOrganisms are **large sections** of a page. They're made of molecules and atoms.\n\n### The Navbar Organism\n\nThe navigation bar at the top of every page contains:\n- Logo (clickable, goes to home)\n- Navigation links (Homestays, Guides, etc.)\n- **SearchBar** molecule\n- Cart icon with item count\n- User menu (login/profile)\n\n### Key difference from molecules:\n- Molecules are **small and flexible** (use anywhere)\n- Organisms are **specific page sections** (navbar, footer)\n\n### Organisms in our app:\n\n| Organism | What it is |\n|----------|------------|\n| **Navbar** | Top navigation |\n| **Footer** | Bottom links |\n| **Hero** | Landing page banner |\n| **ListingGrid** | Grid of cards |\n| **BookingWidget** | Booking sidebar |"
+    },
+    {
+      "title": "Navbar Structure",
+      "file": "src/components/organisms/Navbar/Navbar.tsx",
+      "line": 16,
+      "description": "## Inside the Navbar\n\nThe navbar is divided into three parts:\n\n```tsx\n<nav className=\"navbar\">\n  {/* Left side: Logo + mobile menu */}\n  <div className=\"navbar-start\">\n    <Logo />\n    <MobileMenuButton />  {/* Only on phones */}\n  </div>\n  \n  {/* Center: Navigation links */}\n  <div className=\"navbar-center hidden lg:flex\">\n    <a href=\"/homestays\">Homestays</a>\n    <a href=\"/guides\">Guides</a>\n    <a href=\"/marketplace\">Marketplace</a>\n  </div>\n  \n  {/* Right side: Search, cart, user */}\n  <div className=\"navbar-end\">\n    <SearchBar />  {/* Molecule! */}\n    <CartButton itemCount={3} />\n    <UserMenu />\n  </div>\n</nav>\n```\n\n### Responsive design:\n- On computers: Full navbar with all links\n- On phones: Hamburger menu with hidden links"
+    },
+    {
+      "title": "Hero Organism",
+      "file": "src/components/organisms/Hero/Hero.tsx",
+      "line": 1,
+      "description": "## The Hero Organism\n\nThe big banner at the top of the home page.\n\n### What it contains:\n- Large background image of Jharkhand\n- Headline text (\"Discover the Soul of Jharkhand\")\n- Search form with:\n  - Destination input\n  - Date picker (check-in / check-out)\n  - Guest selector\n  - Search button\n\n### Why it's an organism:\n- It's a **complete section** (not reusable in many places)\n- It contains **multiple molecules** (inputs, buttons, etc.)\n- It has a **specific purpose** (attract visitors, enable search)\n\n### Design tip:\nHero sections are common on landing pages. They make a strong first impression and guide users to take action."
+    },
+    {
+      "title": "ListingGrid Organism",
+      "file": "src/components/organisms/ListingGrid/ListingGrid.tsx",
+      "line": 1,
+      "description": "## The ListingGrid Organism\n\nDisplays a **grid of ListingCard molecules**.\n\n### What it does:\n- Takes a list of items (homestays, guides, products)\n- Displays them in a responsive grid\n- Shows loading skeletons while fetching data\n- Shows \"No results\" message if empty\n\n### Using ListingGrid:\n```tsx\n<ListingGrid \n  listings={homestays}\n  loading={isLoading}\n  columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}\n/>\n```\n\n### Responsive columns:\n- **Phone** (sm): 1 card per row\n- **Tablet** (md): 2 cards per row\n- **Laptop** (lg): 3 cards per row\n- **Desktop** (xl): 4 cards per row\n\n### Why an organism?\nIt handles the grid layout AND loading states. That's too much for a simple molecule."
+    },
+    {
+      "title": "Layouts: Page Templates",
+      "file": "src/components/layouts/MainLayout/MainLayout.tsx",
+      "line": 1,
+      "description": "## What are Layouts?\n\nLayouts are **page templates** that provide consistent structure.\n\n### Think of a newspaper:\n- Every page has the same **header** (newspaper name)\n- Every page has the same **footer** (page number)\n- Only the **content in the middle** changes\n\n### MainLayout provides:\n1. Skip link (for keyboard users)\n2. Navbar at the top\n3. Space for the page content\n4. Footer at the bottom\n5. Mobile navigation (on phones)\n\n### Why layouts matter:\n- **Write once, use everywhere** - Don't repeat navbar code on every page\n- **Consistency** - All pages have the same structure\n- **Easier maintenance** - Update navbar once, it changes everywhere"
+    },
+    {
+      "title": "Layout Structure",
+      "file": "src/components/layouts/MainLayout/MainLayout.tsx",
+      "line": 30,
+      "description": "## How Layouts Work\n\nThe layout wraps around page content:\n\n```tsx\n<div className=\"min-h-screen flex flex-col\">\n  {/* Always at top */}\n  <Navbar />\n  \n  {/* Page content goes here */}\n  <main className=\"flex-grow\">\n    {children}  {/* or <Outlet /> for React Router */}\n  </main>\n  \n  {/* Always at bottom */}\n  <Footer />\n  \n  {/* Mobile only */}\n  <MobileNav />\n</div>\n```\n\n### The `children` prop:\nWhatever you put between the layout tags becomes `children`.\n\n```tsx\n<MainLayout>\n  <HomePage />  {/* This becomes 'children' */}\n</MainLayout>\n```\n\n### React Router uses `<Outlet />`:\nWith routing, `<Outlet />` is where child routes render."
+    },
+    {
+      "title": "Pages: Complete Screens",
+      "file": "src/components/pages/Home/Home.tsx",
+      "line": 1,
+      "description": "## What are Pages?\n\nPages are **complete screens** that users see at specific URLs.\n\n### The Home Page contains:\n1. **Hero** organism - Big banner with search\n2. **Categories** section - Homestays, Guides, Products\n3. **ListingGrid** organism - Featured homestays\n4. **How It Works** section - 3-step guide\n5. **Testimonials** section - Customer reviews\n\n### Each page:\n- Has its own **URL** (like `/` for home)\n- Uses a **layout** for structure\n- Contains **organisms** and other elements\n- Fetches its own **data** if needed\n\n### Pages are the final assembly:\nAll the atoms, molecules, organisms, and layouts come together here!"
+    },
+    {
+      "title": "📋 To Do: Build a Molecule from Atoms",
+      "file": "src/components/molecules/ListingCard/ListingCard.tsx",
+      "line": 1,
+      "description": "## 📋 To Do: Build a Molecule from Atoms\n\nLet's practice atomic design by creating a `TestimonialCard` molecule.\n\n---\n\n### Step 1: Plan What Atoms You'll Use\nThis molecule will combine:\n- **Avatar** atom (user photo)\n- **Rating** atom (star rating)\n- **Icon** atom (quote icon)\n\n### Step 2: Create the Props File\nCreate `src/components/molecules/TestimonialCard/TestimonialCardProps.ts`:\n```typescript\nexport interface TestimonialCardProps {\n  name: string;\n  avatar?: string;\n  rating: number;\n  quote: string;\n  location?: string;\n}\n```\n\n### Step 3: Create the Component\nCreate `src/components/molecules/TestimonialCard/TestimonialCard.tsx`:\n```typescript\nimport { Avatar, Rating, Icon } from '../../atoms';\nimport { TestimonialCardProps } from './TestimonialCardProps';\n\nexport function TestimonialCard({\n  name,\n  avatar,\n  rating,\n  quote,\n  location\n}: TestimonialCardProps) {\n  return (\n    <div className=\"card bg-base-100 shadow-md\">\n      <div className=\"card-body\">\n        <Icon name=\"format_quote\" className=\"text-primary text-3xl\" />\n        <p className=\"text-base-content/80 italic\">\"{quote}\"</p>\n        <div className=\"flex items-center gap-3 mt-4\">\n          <Avatar src={avatar} alt={name} size=\"sm\" />\n          <div>\n            <p className=\"font-semibold\">{name}</p>\n            {location && (\n              <p className=\"text-sm text-base-content/60\">{location}</p>\n            )}\n          </div>\n        </div>\n        <Rating value={rating} readOnly size=\"sm\" />\n      </div>\n    </div>\n  );\n}\n```\n\n### Step 4: Create Index and Export\n```typescript\n// index.ts\nexport { TestimonialCard } from './TestimonialCard';\nexport type { TestimonialCardProps } from './TestimonialCardProps';\n\n// Add to molecules/index.ts\nexport * from './TestimonialCard';\n```\n\n---\n\n## ⚠️ Watch Out For\n\n| Issue | Cause | Solution |\n|-------|-------|----------|\n| Atoms not found | Wrong import path | Use relative path: `../../atoms` |\n| Layout broken | Missing flexbox classes | Add `flex`, `gap-*` utilities |\n| Card too wide | No max-width | Add `max-w-sm` or container |\n| Avatar not showing | Invalid image URL | Add fallback/placeholder |\n\n---\n\n## ❌ Common Errors\n\n| Error Message | What It Means | How to Fix |\n|---------------|---------------|------------|\n| `Avatar is not exported` | Atom not exported | Check atoms/index.ts |\n| `Cannot find module '../../atoms'` | Wrong path | Verify folder structure |\n| `rating.toFixed is not a function` | Rating is string not number | Ensure rating prop is number |\n| Component renders nothing | Missing return statement | Check JSX is returned |\n\n---\n\n### ✅ Checklist\n- [ ] Identified atoms to use (Avatar, Rating, Icon)\n- [ ] Created props interface with correct types\n- [ ] Imported atoms correctly\n- [ ] Composed atoms with proper layout\n- [ ] Added responsive styling\n- [ ] Exported from molecules index\n- [ ] Tested with sample data"
+    },
+    {
+      "title": "Summary: The Complete Picture",
+      "file": "package.json",
+      "line": 1,
+      "description": "## Atomic Design Summary\n\n### The hierarchy:\n\n```\nPages\n  └── Layouts\n        └── Organisms\n              └── Molecules\n                    └── Atoms\n```\n\n### Quick reference:\n\n| Level | Size | Reusability | Example |\n|-------|------|-------------|--------|\n| **Atoms** | Tiny | Used everywhere | Button, Icon |\n| **Molecules** | Small | Used in many places | ListingCard, SearchBar |\n| **Organisms** | Large | Used in specific places | Navbar, Footer |\n| **Layouts** | Page-sized | Used by multiple pages | MainLayout |\n| **Pages** | Full screen | One per URL | Home, Search |\n\n### Creating new components:\n1. **Start with atoms** - Can you use existing ones?\n2. **Combine into molecules** - Keep them simple and reusable\n3. **Build organisms** - For page sections\n4. **Assemble pages** - Put it all together\n\n---\n\n**Tour Complete!**\n\nNext: Take the **\"05 - Managing App State\"** tour to learn how data flows through the app!"
+    }
+  ]
+}

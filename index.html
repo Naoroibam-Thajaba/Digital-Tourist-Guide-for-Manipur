@@ -1,0 +1,44 @@
+<!doctype html>
+<!-- `index.html` - Single-page application entry for Vite + React.
+     Provides the HTML shell, root mounting point, and loads the client module. -->
+<html lang="en" data-theme="manipur">
+<head>
+    <!-- Character encoding for the document -->
+    <meta charset="UTF-8"/>
+    <!-- Favicon used by the dev server / build -->
+    <link href="/favicon.ico" rel="icon" type="image"/>
+    <!-- Responsive viewport settings for mobile devices -->
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <!-- Document title shown in the browser tab -->
+    <title>One Manipur Tourism</title>
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <!-- Single Page Apps for GitHub Pages - Redirect Handler -->
+    <script type="text/javascript">
+        // This script handles the redirect from 404.html back to the SPA
+        // https://github.com/rafgraph/spa-github-pages
+        (function(l) {
+            if (l.search[1] === '/' ) {
+                var decoded = l.search.slice(1).split('&').map(function(s) {
+                    return s.replace(/~and~/g, '&')
+                }).join('?');
+                window.history.replaceState(null, null,
+                    l.pathname.slice(0, -1) + decoded + l.hash
+                );
+            }
+        }(window.location))
+    </script>
+</head>
+<body>
+<!-- Root element where the React app will mount (React renders into this div) -->
+<div id="root"></div>
+<!--
+  Load the application's entry module.
+  - `type="module"` enables ES module loading in the browser (used by Vite).
+  - The path `/src/main.tsx` is resolved by Vite during dev and build.
+-->
+<script src="/src/main.tsx" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "05 - Managing App State",
+  "description": "Learn how different parts of the app share information - like a shopping cart that the navbar and checkout page both need!",
+  "steps": [
+    {
+      "title": "What is State?",
+      "file": "src/context/CartContext.tsx",
+      "line": 1,
+      "description": "## What is \"State\"?\n\n**State** is data that can change while the app is running.\n\n### Examples of state:\n- Items in a shopping cart (add/remove items)\n- Whether a user is logged in\n- What the user typed in a search box\n- Whether a modal is open or closed\n\n### Why does state matter?\nWhen state changes, React **automatically updates the screen** to show the new data.\n\n### Example:\n```\nCart is empty → User adds item → Cart shows 1 item\n```\n\nReact handles this automatically! You just update the state, and React updates what the user sees."
+    },
+    {
+      "title": "The Problem: Sharing State",
+      "file": "src/context/CartContext.tsx",
+      "line": 1,
+      "description": "## The Problem We're Solving\n\nImagine a shopping cart. Many parts of the app need it:\n\n1. **Navbar** - Shows cart icon with item count\n2. **Product page** - \"Add to Cart\" button\n3. **Cart drawer** - Lists all items\n4. **Checkout page** - Shows total price\n\n### The challenge:\nNormally, data flows **from parent to child** components. But these components aren't directly connected!\n\n```\n          App\n         /   \\\n    Navbar   ProductPage\n       |          |\n    CartIcon  AddToCartBtn\n```\n\n### How do CartIcon and AddToCartBtn share cart data?\nThey're not parent-child, so we can't just pass data down.\n\n### The solution: **React Context**\nContext lets us share data with any component in the app, no matter where it is!"
+    },
+    {
+      "title": "What is Context?",
+      "file": "src/context/CartContext.tsx",
+      "line": 1,
+      "description": "## React Context Explained\n\nThink of Context like a **radio broadcast**:\n\n1. There's a **radio station** (the Provider) that broadcasts data\n2. Any **radio** (component) can tune in and listen\n3. When the station updates, all radios get the new data\n\n### In code terms:\n- **Provider** - Wraps the app and holds the data\n- **Consumer** - Any component that needs the data\n- **Hook** (`useContext`) - How components access the data\n\n### Our contexts:\n\n| Context | What it shares |\n|---------|---------------|\n| **CartContext** | Shopping cart items, add/remove functions |\n| **ToastContext** | Notification messages |"
+    },
+    {
+      "title": "CartContext: The Shopping Cart",
+      "file": "src/context/CartContext.tsx",
+      "line": 7,
+      "description": "## The Cart State\n\nHere's what data the cart holds:\n\n```typescript\ninterface CartState {\n  items: CartItem[];    // List of products in cart\n  isOpen: boolean;      // Is the cart drawer open?\n}\n```\n\n### Each CartItem contains:\n```typescript\ninterface CartItem {\n  id: string;           // Unique identifier\n  productId: string;    // Which product\n  name: string;         // Product name\n  price: number;        // Price per item\n  quantity: number;     // How many\n  image?: string;       // Product image\n}\n```\n\n### Example cart:\n```javascript\nitems: [\n  { id: '1', name: 'Dokra Art', price: 1500, quantity: 2 },\n  { id: '2', name: 'Tribal Painting', price: 800, quantity: 1 }\n]\n```"
+    },
+    {
+      "title": "Cart Actions",
+      "file": "src/context/CartContext.tsx",
+      "line": 15,
+      "description": "## What Can You Do With the Cart?\n\nThe cart provides **actions** (functions) to modify it:\n\n| Action | What it does |\n|--------|-------------|\n| `addItem(item)` | Add a product to cart |\n| `removeItem(id)` | Remove a product |\n| `updateQuantity(id, qty)` | Change quantity |\n| `clearCart()` | Remove all items |\n| `openCart()` | Open the cart drawer |\n| `closeCart()` | Close the cart drawer |\n\n### Example usage:\n```typescript\n// In any component:\nconst { addItem, removeItem, items } = useCart();\n\n// Add item when button clicked\naddItem({ id: '1', name: 'Dokra Art', price: 1500 });\n\n// Remove item\nremoveItem('1');\n```\n\n### The magic:\nWhen you call these functions, **every component using the cart updates automatically!**"
+    },
+    {
+      "title": "Computed Values",
+      "file": "src/context/CartContext.tsx",
+      "line": 15,
+      "description": "## Calculated Values\n\nThe cart also provides **computed values** - data calculated from the items:\n\n| Value | What it is |\n|-------|------------|\n| `total` | Total price of all items |\n| `itemCount` | Total number of items |\n\n### How they're calculated:\n\n```typescript\n// Total price\ntotal = items.reduce(\n  (sum, item) => sum + (item.price * item.quantity), \n  0\n);\n// Example: (1500 × 2) + (800 × 1) = ₹3,800\n\n// Item count\nitemCount = items.reduce(\n  (sum, item) => sum + item.quantity, \n  0\n);\n// Example: 2 + 1 = 3 items\n```\n\n### Why computed values?\nYou don't store these - they're calculated from items. If items change, these update automatically!"
+    },
+    {
+      "title": "The Reducer Pattern",
+      "file": "src/context/CartContext.tsx",
+      "line": 50,
+      "description": "## How State Changes: The Reducer\n\nWe use a **reducer** to manage state changes. Think of it like a vending machine:\n\n1. You **tell it what you want** (action)\n2. It **processes your request** (reducer logic)\n3. It **gives you the result** (new state)\n\n### Actions are like instructions:\n```typescript\n{ type: 'ADD_ITEM', payload: product }     // Add this product\n{ type: 'REMOVE_ITEM', payload: productId } // Remove this product\n{ type: 'CLEAR_CART' }                      // Empty the cart\n```\n\n### The reducer decides what to do:\n```typescript\nfunction cartReducer(state, action) {\n  switch (action.type) {\n    case 'ADD_ITEM':\n      // Logic to add item\n      return newState;\n    case 'REMOVE_ITEM':\n      // Logic to remove item\n      return newState;\n    // ... more cases\n  }\n}\n```"
+    },
+    {
+      "title": "Adding an Item",
+      "file": "src/context/CartContext.tsx",
+      "line": 50,
+      "description": "## Example: Adding to Cart\n\nLet's trace what happens when you click \"Add to Cart\":\n\n### Step 1: Component calls addItem\n```typescript\naddItem({ id: '1', name: 'Dokra Art', price: 1500 });\n```\n\n### Step 2: This creates an action\n```typescript\n{ type: 'ADD_ITEM', payload: { id: '1', name: 'Dokra Art', price: 1500 } }\n```\n\n### Step 3: Reducer handles the action\n```typescript\ncase 'ADD_ITEM': {\n  // Check if already in cart\n  const existing = state.items.find(item => item.id === payload.id);\n  \n  if (existing) {\n    // Increase quantity by 1\n    return { ...state, items: updatedItems };\n  }\n  \n  // Add new item with quantity 1\n  return { ...state, items: [...state.items, { ...payload, quantity: 1 }] };\n}\n```\n\n### Step 4: React updates all components using the cart!"
+    },
+    {
+      "title": "The Cart Provider",
+      "file": "src/context/CartContext.tsx",
+      "line": 110,
+      "description": "## The Provider Component\n\nThe **Provider** is what makes context work. It wraps your app and provides data to all children.\n\n### How it works:\n```tsx\nexport function CartProvider({ children }) {\n  // Create state with reducer\n  const [state, dispatch] = useReducer(cartReducer, initialState);\n  \n  // Create action functions\n  const addItem = (item) => dispatch({ type: 'ADD_ITEM', payload: item });\n  const removeItem = (id) => dispatch({ type: 'REMOVE_ITEM', payload: id });\n  \n  // Calculate totals\n  const total = state.items.reduce(...);\n  \n  // Provide everything to children\n  return (\n    <CartContext.Provider value={{ ...state, addItem, removeItem, total }}>\n      {children}\n    </CartContext.Provider>\n  );\n}\n```\n\n### Where we use it:\nIn `main.tsx`, we wrap the entire app with `CartProvider`."
+    },
+    {
+      "title": "Using the Cart Hook",
+      "file": "src/context/CartContext.tsx",
+      "line": 163,
+      "description": "## The useCart Hook\n\nThis is how components **access the cart**:\n\n```typescript\nexport function useCart() {\n  const context = useContext(CartContext);\n  if (context === undefined) {\n    throw new Error('useCart must be used within a CartProvider');\n  }\n  return context;\n}\n```\n\n### Using it in any component:\n\n```tsx\nfunction ProductCard({ product }) {\n  const { addItem } = useCart();\n  \n  return (\n    <div>\n      <h3>{product.name}</h3>\n      <button onClick={() => addItem(product)}>\n        Add to Cart\n      </button>\n    </div>\n  );\n}\n```\n\n```tsx\nfunction CartIcon() {\n  const { itemCount, openCart } = useCart();\n  \n  return (\n    <button onClick={openCart}>\n      Cart ({itemCount})\n    </button>\n  );\n}\n```"
+    },
+    {
+      "title": "Toast Context: Notifications",
+      "file": "src/context/ToastContext.tsx",
+      "line": 1,
+      "description": "## The Toast Context\n\nToasts are those small **notification messages** that pop up:\n\n- ✅ \"Item added to cart!\"\n- ❌ \"Payment failed. Please try again.\"\n- ⚠️ \"Your session will expire soon.\"\n\n### Toast state:\n```typescript\ninterface Toast {\n  id: string;           // Unique identifier\n  message: string;      // What to show\n  variant: 'success' | 'error' | 'warning' | 'info';\n  duration?: number;    // How long to show (ms)\n}\n```\n\n### Toast actions:\n```typescript\nshowSuccess('Item added to cart!');\nshowError('Payment failed');\nshowWarning('Low stock');\nshowInfo('Free shipping over ₹500');\n```"
+    },
+    {
+      "title": "Using Toasts",
+      "file": "src/context/ToastContext.tsx",
+      "line": 50,
+      "description": "## How to Show Notifications\n\n### In any component:\n```tsx\nfunction AddToCartButton({ product }) {\n  const { addItem } = useCart();\n  const { showSuccess } = useToast();\n  \n  const handleClick = () => {\n    addItem(product);\n    showSuccess(`${product.name} added to cart!`);\n  };\n  \n  return <button onClick={handleClick}>Add to Cart</button>;\n}\n```\n\n### The toast appears automatically!\n- Shows for a few seconds\n- User can dismiss it early\n- Multiple toasts stack up\n\n### Why use context for toasts?\n- Any component can show a toast\n- Toasts appear at a consistent location\n- Auto-dismiss is handled centrally"
+    },
+    {
+      "title": "Setting Up Providers",
+      "file": "src/main.tsx",
+      "line": 23,
+      "description": "## How Providers Are Set Up\n\nProviders wrap your app in `main.tsx`:\n\n```tsx\ncreateRoot(document.getElementById('root')!).render(\n  <StrictMode>\n    <BrowserRouter>\n      <ToastProvider>      {/* <-- Toast notifications */}\n        <App />            {/* <-- Your app */}\n      </ToastProvider>\n    </BrowserRouter>\n  </StrictMode>\n);\n```\n\n### Provider order matters!\nProviders are like layers of an onion:\n- Outer providers wrap inner ones\n- Inner components can use all outer providers\n\n### Adding more providers:\nTo add CartProvider:\n```tsx\n<ToastProvider>\n  <CartProvider>\n    <App />\n  </CartProvider>\n</ToastProvider>\n```"
+    },
+    {
+      "title": "Context Barrel File",
+      "file": "src/context/index.ts",
+      "line": 1,
+      "description": "## Exporting Contexts\n\nThe `index.ts` file makes imports cleaner:\n\n```typescript\n// src/context/index.ts\nexport { CartProvider, useCart } from './CartContext';\nexport { ToastProvider, useToast } from './ToastContext';\n```\n\n### Now you can import like this:\n```typescript\nimport { useCart, useToast } from '../context';\n```\n\n### Instead of:\n```typescript\nimport { useCart } from '../context/CartContext';\nimport { useToast } from '../context/ToastContext';\n```\n\n### Cleaner imports = happier developers!"
+    },
+    {
+      "title": "📋 To Do: Create a Wishlist Context",
+      "file": "src/context/CartContext.tsx",
+      "line": 1,
+      "description": "## 📋 To Do: Create a Wishlist Context\n\nLet's practice by creating a `WishlistContext` for saving favorite items.\n\n---\n\n### Step 1: Define the Types\nCreate `src/context/WishlistContext.tsx`:\n```typescript\nimport { createContext, useContext, useReducer, ReactNode } from 'react';\n\ninterface WishlistItem {\n  id: string;\n  type: 'homestay' | 'guide' | 'product';\n  title: string;\n  image?: string;\n}\n\ninterface WishlistState {\n  items: WishlistItem[];\n}\n\ninterface WishlistContextType extends WishlistState {\n  addToWishlist: (item: WishlistItem) => void;\n  removeFromWishlist: (id: string) => void;\n  isInWishlist: (id: string) => boolean;\n  clearWishlist: () => void;\n}\n```\n\n### Step 2: Create the Reducer\n```typescript\ntype WishlistAction =\n  | { type: 'ADD_ITEM'; payload: WishlistItem }\n  | { type: 'REMOVE_ITEM'; payload: string }\n  | { type: 'CLEAR' };\n\nfunction wishlistReducer(\n  state: WishlistState,\n  action: WishlistAction\n): WishlistState {\n  switch (action.type) {\n    case 'ADD_ITEM':\n      if (state.items.some(item => item.id === action.payload.id)) {\n        return state; // Already exists\n      }\n      return { items: [...state.items, action.payload] };\n\n    case 'REMOVE_ITEM':\n      return {\n        items: state.items.filter(item => item.id !== action.payload)\n      };\n\n    case 'CLEAR':\n      return { items: [] };\n\n    default:\n      return state;\n  }\n}\n```\n\n### Step 3: Create Provider & Hook\n```typescript\nconst WishlistContext = createContext<WishlistContextType | undefined>(undefined);\n\nexport function WishlistProvider({ children }: { children: ReactNode }) {\n  const [state, dispatch] = useReducer(wishlistReducer, { items: [] });\n\n  const addToWishlist = (item: WishlistItem) =>\n    dispatch({ type: 'ADD_ITEM', payload: item });\n\n  const removeFromWishlist = (id: string) =>\n    dispatch({ type: 'REMOVE_ITEM', payload: id });\n\n  const isInWishlist = (id: string) =>\n    state.items.some(item => item.id === id);\n\n  const clearWishlist = () =>\n    dispatch({ type: 'CLEAR' });\n\n  return (\n    <WishlistContext.Provider value={{\n      ...state,\n      addToWishlist,\n      removeFromWishlist,\n      isInWishlist,\n      clearWishlist\n    }}>\n      {children}\n    </WishlistContext.Provider>\n  );\n}\n\nexport function useWishlist() {\n  const context = useContext(WishlistContext);\n  if (!context) {\n    throw new Error('useWishlist must be used within WishlistProvider');\n  }\n  return context;\n}\n```\n\n### Step 4: Add to main.tsx\n```typescript\n<WishlistProvider>\n  <App />\n</WishlistProvider>\n```\n\n---\n\n## ⚠️ Watch Out For\n\n| Issue | Cause | Solution |\n|-------|-------|----------|\n| `useWishlist` returns undefined | Missing provider | Wrap app with WishlistProvider |\n| Items duplicate on add | No duplicate check | Check if item exists before adding |\n| State not persisting | No storage | Add localStorage sync (optional) |\n| Context not updating UI | State mutation | Always return new objects/arrays |\n\n---\n\n## ❌ Common Errors\n\n| Error Message | What It Means | How to Fix |\n|---------------|---------------|------------|\n| `useWishlist must be used within...` | Missing provider | Add WishlistProvider to main.tsx |\n| `Cannot read 'items' of undefined` | Context not provided | Check provider wrapping |\n| `dispatch is not a function` | useReducer not called | Ensure useReducer is set up |\n| UI not updating | Mutating state directly | Use spread operator for new state |\n\n---\n\n### ✅ Checklist\n- [ ] Created WishlistContext.tsx file\n- [ ] Defined item type and state interface\n- [ ] Created reducer with ADD/REMOVE/CLEAR actions\n- [ ] Created WishlistProvider component\n- [ ] Created useWishlist hook with error handling\n- [ ] Added provider to main.tsx\n- [ ] Tested adding/removing items\n- [ ] Exported from context/index.ts"
+    },
+    {
+      "title": "Summary: When to Use Context",
+      "file": "src/context/CartContext.tsx",
+      "line": 1,
+      "description": "## When Should You Use Context?\n\n### Good use cases:\n- ✅ Shopping cart (many components need it)\n- ✅ User authentication (login state)\n- ✅ Theme (dark/light mode)\n- ✅ Notifications/toasts\n\n### Not ideal for:\n- ❌ Data only one component needs (use local state)\n- ❌ Data that changes very frequently (can be slow)\n- ❌ Server data (use the API approach in Tour 05)\n\n### The pattern we learned:\n\n1. **Create context** with `createContext()`\n2. **Create provider** that holds state and actions\n3. **Create hook** (`useCart`) for easy access\n4. **Wrap app** with provider in `main.tsx`\n5. **Use hook** in any component that needs the data\n\n---\n\n**Tour Complete!**\n\nNext: Take the **\"06 - Fetching Data\"** tour to learn how the app gets data from the server!"
+    }
+  ]
+}

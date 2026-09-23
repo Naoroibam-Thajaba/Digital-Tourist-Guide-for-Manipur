@@ -1,0 +1,23 @@
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import { connectDB } from './config/db.js';
+import authRoutes from './routes/auth.js';
+import listingRoutes from './routes/listings.js';
+import bookingRoutes from './routes/bookings.js';
+import catalogRoutes from './routes/catalog.js';
+import adminRoutes from './routes/admin.js';
+
+const app=express();
+app.use(helmet());
+app.use(cors({origin:true,credentials:true}));
+app.use(express.json({limit:'2mb'}));
+app.use(morgan('dev'));
+app.get('/api/health',(req,res)=>res.json({status:'ok',service:'One Manipur Tourism API',time:new Date().toISOString()}));
+app.get('/api',(req,res)=>res.json({name:'One Manipur Tourism API',version:'1.0.0',modules:['destinations','hotels','homestays','transport','restaurants','guides','events','shopping','heritage','adventure','emergency','maps','payments','feedback']}));
+app.use('/api/auth',authRoutes); app.use('/api',listingRoutes); app.use('/api/bookings',bookingRoutes); app.use('/api',catalogRoutes); app.use('/api/admin',adminRoutes);
+app.use((err,req,res,next)=>{console.error(err);res.status(500).json({message:'Internal server error',error:process.env.NODE_ENV==='development'?err.message:undefined})});
+const port=process.env.PORT||2201;
+connectDB().then(()=>app.listen(port,()=>console.log(`One Manipur Tourism API running on http://localhost:${port}`))).catch(err=>{console.error('Database connection failed:',err.message);process.exit(1)});

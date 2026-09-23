@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { User } from '../models/index.js';
+import { auth } from '../middleware/auth.js';
+const router=Router();
+const token=u=>jwt.sign({id:u._id,role:u.role},process.env.JWT_SECRET,{expiresIn:process.env.JWT_EXPIRES_IN||'7d'});
+router.post('/register',async(req,res)=>{try{const {name,email,password,role='tourist',phone}=req.body;if(!name||!email||!password)return res.status(400).json({message:'name, email and password are required'});if(await User.findOne({email}))return res.status(409).json({message:'Email already registered'});const user=await User.create({name,email,password:await bcrypt.hash(password,12),role,phone});res.status(201).json({data:{user:{id:user._id,name:user.name,email:user.email,role:user.role},token:token(user)}})}catch(e){res.status(500).json({message:e.message})}});
+router.post('/login',async(req,res)=>{try{const {email,password}=req.body;const user=await User.findOne({email});if(!user||!(await bcrypt.compare(password,user.password)))return res.status(401).json({message:'Invalid email or password'});res.json({data:{user:{id:user._id,name:user.name,email:user.email,role:user.role},token:token(user)}})}catch(e){res.status(500).json({message:e.message})}});
+router.get('/me',auth,(req,res)=>res.json({data:req.user}));
+export default router;

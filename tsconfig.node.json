@@ -1,0 +1,49 @@
+{
+	// Compiler options for type-checking used by Node/Vite build step
+	"compilerOptions": {
+		// Incremental build info file (keeps tsbuild cache out of the project root)
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+		// ECMAScript target version for type checking / emitted code
+		"target": "ES2023",
+		// Standard library definitions to include for type checking
+		"lib": [
+			"ES2023"
+		],
+		// Module code generation format suitable for modern bundlers
+		"module": "ESNext",
+		// Include ambient type definitions (Node.js types)
+		"types": [
+			"node"
+		],
+		// Skip type checking of declaration files from dependencies to speed up checks
+		"skipLibCheck": true,
+		/* Bundler mode */
+		// Use bundler-style module resolution (for tools like Vite/Rollup)
+		"moduleResolution": "bundler",
+		// Allow importing files with explicit TypeScript extensions (e.g. import './file.ts')
+		"allowImportingTsExtensions": true,
+		// Preserve the original module syntax in emitted declarations / analysis
+		"verbatimModuleSyntax": true,
+		// Force TypeScript to treat files as modules when detection is ambiguous
+		"moduleDetection": "force",
+		// Do not emit compiled output; this config is for type-checking only
+		"noEmit": true,
+		/* Linting / stricter diagnostics */
+		// Enable all strict type-checking options
+		"strict": true,
+		// Report unused local variables
+		"noUnusedLocals": true,
+		// Report unused function parameters
+		"noUnusedParameters": true,
+		// Allow syntax that can be erased during transformation (internal control)
+		"erasableSyntaxOnly": true,
+		// Prevent fallthrough behavior in switch statements without explicit comments
+		"noFallthroughCasesInSwitch": true,
+		// Disallow imports that rely on unchecked side effects
+		"noUncheckedSideEffectImports": true
+	},
+	// Files included by this config (Vite's Node config only needs the Vite config file)
+	"include": [
+		"vite.config.ts"
+	]
+}

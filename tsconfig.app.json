@@ -1,0 +1,56 @@
+{
+	// Application TypeScript configuration used for the React runtime source.
+	// Contains compiler options optimized for development and bundling with Vite.
+	"compilerOptions": {
+		// Incremental build info file to keep tsbuild cache out of the project root.
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+		// ECMAScript target version for emitted code and type-checking.
+		"target": "ES2022",
+		// Use `define` semantics for class fields (aligns with modern transpilers).
+		"useDefineForClassFields": true,
+		// Standard library definitions included for type checking (DOM + modern ES features).
+		"lib": [
+			"ES2022",
+			"DOM",
+			"DOM.Iterable"
+		],
+		// Module code generation format suitable for modern bundlers (Vite/Rollup).
+		"module": "ESNext",
+		// Include type definitions provided by Vite's client for HMR and env types.
+		"types": [
+			"vite/client"
+		],
+		// Skip type checking of declaration files from `node_modules` to speed up checks.
+		"skipLibCheck": true,
+		/* Bundler mode */
+		// Use bundler-style module resolution (preferred for ESM bundlers).
+		"moduleResolution": "bundler",
+		// Allow importing files with explicit TypeScript extensions (e.g. `./file.ts`).
+		"allowImportingTsExtensions": true,
+		// Preserve original module syntax for emitted declarations/analysis.
+		"verbatimModuleSyntax": true,
+		// Force TypeScript to treat files as modules when detection is ambiguous.
+		"moduleDetection": "force",
+		// Do not emit compiled JavaScript; this config is for type-checking only in the app project.
+		"noEmit": true,
+		// Enable the new JSX transform for React (`react-jsx`).
+		"jsx": "react-jsx",
+		/* Linting / stricter diagnostics */
+		// Enable all strict type-checking options (recommended).
+		"strict": true,
+		// Report unused local variables.
+		"noUnusedLocals": true,
+		// Report unused function parameters.
+		"noUnusedParameters": true,
+		// Allow syntax that can be erased during transformation (internal control).
+		"erasableSyntaxOnly": true,
+		// Prevent fallthrough in switch statements without an explicit comment.
+		"noFallthroughCasesInSwitch": true,
+		// Disallow imports that rely on unchecked side effects.
+		"noUncheckedSideEffectImports": true
+	},
+	// Files / folders included by this config (application source).
+	"include": [
+		"src"
+	]
+}

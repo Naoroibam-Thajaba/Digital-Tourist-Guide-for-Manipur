@@ -1,0 +1,26 @@
+//{
+//	// TypeScript configuration for Storybook files
+//	// This extends the application config but relaxes some settings for story files
+//	"extends": "../tsconfig.app.json",
+//	"compilerOptions": {
+//		// Incremental build info file for Storybook
+//		"tsBuildInfoFile": "../node_modules/.tmp/tsconfig.storybook.tsbuildinfo",
+//		// Allow default imports from modules with no default export (some Storybook addons need this)
+//		"allowSyntheticDefaultImports": true,
+//		// Allow imports from node_modules without type definitions
+//		"skipLibCheck": true,
+//		// Include Storybook types
+//		"types": ["vite/client", "node"],
+//		// Do not emit compiled output
+//		"noEmit": true
+//	},
+//	// Include Storybook configuration files and stories
+//	"include": [
+//		"**/*.ts",
+//		"**/*.tsx",
+//		"../src/**/*.stories.ts",
+//		"../src/**/*.stories.tsx"
+//	],
+//	// Exclude node_modules
+//	"exclude": ["node_modules"]
+//}

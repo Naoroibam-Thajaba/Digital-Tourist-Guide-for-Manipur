@@ -1,0 +1,103 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "06 - Fetching Data",
+  "description": "Learn how the app gets information from a server - like homestay listings, prices, and reviews!",
+  "steps": [
+    {
+      "title": "Where Does Data Come From?",
+      "file": "src/services/api.ts",
+      "line": 1,
+      "description": "## Where Does Data Come From?\n\nWhen you open a website like Amazon or Airbnb, the product listings aren't stored in your browser. They come from a **server** (a computer on the internet).\n\n### How it works:\n\n```\n┌─────────────────┐         ┌─────────────────┐\n│   Your Browser  │  ────>  │    Server       │\n│   (Frontend)    │  <────  │    (Backend)    │\n└─────────────────┘         └─────────────────┘\n     \"Show me                   \"Here's the\n      homestays\"                  data!\"\n```\n\n### The conversation:\n1. **Browser asks**: \"Give me the list of homestays\"\n2. **Server responds**: \"Here's the data: [{name: 'Forest Lodge', price: 2500}, ...]\"\n3. **Browser displays**: Shows the homestays on screen\n\n### This is called an API (Application Programming Interface)\nIt's how programs talk to each other over the internet."
+    },
+    {
+      "title": "The API Layer",
+      "file": "src/services/api.ts",
+      "line": 1,
+      "description": "## Our API Setup\n\nWe organize our code into layers:\n\n```\n┌─────────────────────────────────────────┐\n│              Components                  │\n│  (What users see - buttons, cards)       │\n└─────────────────────────────────────────┘\n                    ↓\n┌─────────────────────────────────────────┐\n│              Hooks (useApi)              │\n│  (Handle loading, errors, refetching)    │\n└─────────────────────────────────────────┘\n                    ↓\n┌─────────────────────────────────────────┐\n│              Services                    │\n│  (Organize API calls by feature)         │\n└─────────────────────────────────────────┘\n                    ↓\n┌─────────────────────────────────────────┐\n│              api.ts                      │\n│  (The actual HTTP requests - Axios)      │\n└─────────────────────────────────────────┘\n```\n\n### Why layers?\n- Each layer has one job\n- Easy to test and modify\n- Components stay simple"
+    },
+    {
+      "title": "Axios: Making Requests",
+      "file": "src/services/api.ts",
+      "line": 8,
+      "description": "## Axios: Our HTTP Library\n\nWe use a library called **Axios** to make requests. It's like a messenger.\n\n### Basic setup:\n```typescript\nimport axios from 'axios';\n\nconst api = axios.create({\n  baseURL: 'https://api.example.com',  // Server address\n  timeout: 10000,                       // Wait max 10 seconds\n});\n```\n\n### Making a request:\n```typescript\n// Get all homestays\nconst response = await api.get('/homestays');\nconsole.log(response.data);  // The actual data\n```\n\n### Common request types:\n\n| Method | What it does | Example |\n|--------|--------------|--------|\n| `GET` | Fetch data | Get homestay list |\n| `POST` | Send data | Create a booking |\n| `PUT` | Update data | Edit profile |\n| `DELETE` | Remove data | Cancel booking |"
+    },
+    {
+      "title": "Environment Variables",
+      "file": "src/services/api.ts",
+      "line": 8,
+      "description": "## Server Address: Environment Variables\n\nWe don't hardcode the server address. We use **environment variables**.\n\n### Why?\nDifferent servers for different situations:\n- **Development**: Local test server\n- **Staging**: Testing server\n- **Production**: Real server for users\n\n### How it works:\n```typescript\nbaseURL: import.meta.env.VITE_API_BASE_URL\n```\n\n### The `.env` file:\n```\nVITE_API_BASE_URL=https://mock-server.example.com\nVITE_POSTMAN_API_KEY=your-api-key\n```\n\n### Security note:\n- `.env` files are **not uploaded to GitHub**\n- Each developer has their own copy\n- API keys stay secret!"
+    },
+    {
+      "title": "Services: Organized API Calls",
+      "file": "src/services/homestays.service.ts",
+      "line": 119,
+      "description": "## Services: Organized by Feature\n\nInstead of putting API calls everywhere, we organize them into **services**.\n\n### homestaysService:\n```typescript\nconst homestaysService = {\n  // Get all homestays\n  getAll: (params) => api.get('/homestays', { params }),\n  \n  // Get one homestay by ID\n  getById: (id) => api.get(`/homestays/${id}`),\n  \n  // Get reviews for a homestay\n  getReviews: (id) => api.get(`/homestays/${id}/reviews`),\n};\n```\n\n### Using in components:\n```typescript\n// Simple and clean!\nconst homestays = await homestaysService.getAll({ limit: 10 });\nconst details = await homestaysService.getById('123');\n```\n\n### Other services:\n- `guidesService` - Tour guide data\n- `productsService` - Handicraft products\n- `bookingsService` - Reservations"
+    },
+    {
+      "title": "Data Cleaning",
+      "file": "src/services/homestays.service.ts",
+      "line": 73,
+      "description": "## Data Normalization (Cleaning)\n\nData from servers isn't always perfect. We clean it before using it.\n\n### Problems we fix:\n\n**1. Missing images:**\n```typescript\n// API returns:\nimages: []\n\n// We provide fallback:\nif (images.length === 0) {\n  images = [placeholderImage];\n}\n```\n\n**2. Wrong image URLs:**\n```typescript\n// API returns:\nimages: ['invalid-url', 'http://example.com/broken.jpg']\n\n// We replace with quality Unsplash images\n```\n\n**3. Different data formats:**\n```typescript\n// API might return:\namenities: [{item: 'WiFi'}, {item: 'AC'}]\n\n// We convert to:\namenities: ['WiFi', 'AC']\n```\n\n### Why normalize?\n- Components expect consistent data\n- Prevents errors from bad API data\n- App always looks good, even with incomplete data"
+    },
+    {
+      "title": "The useApi Hook",
+      "file": "src/hooks/useApi.ts",
+      "line": 29,
+      "description": "## The useApi Hook: Making Data Fetching Easy\n\nFetching data has common patterns:\n1. Show loading spinner\n2. Make the request\n3. If success: show data\n4. If error: show error message\n\n### Without useApi (lots of repeated code):\n```typescript\nfunction HomePage() {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n  \n  useEffect(() => {\n    setLoading(true);\n    homestaysService.getAll()\n      .then(data => setData(data))\n      .catch(err => setError(err))\n      .finally(() => setLoading(false));\n  }, []);\n  \n  // ...repeat this in every component!\n}\n```\n\n### With useApi (one line!):\n```typescript\nfunction HomePage() {\n  const { data, loading, error } = useApi(\n    () => homestaysService.getAll()\n  );\n  // Done!\n}\n```"
+    },
+    {
+      "title": "How useApi Works",
+      "file": "src/hooks/useApi.ts",
+      "line": 38,
+      "description": "## Inside the useApi Hook\n\nHere's what the hook does for you:\n\n```typescript\nfunction useApi(fetchFunction) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n  \n  const fetch = async () => {\n    setLoading(true);        // Start loading\n    setError(null);          // Clear old errors\n    \n    try {\n      const result = await fetchFunction();  // Make request\n      setData(result);       // Save data\n    } catch (err) {\n      setError(err);         // Save error\n    } finally {\n      setLoading(false);     // Stop loading\n    }\n  };\n  \n  useEffect(() => {\n    fetch();  // Fetch when component loads\n  }, []);\n  \n  return { data, loading, error, refetch: fetch };\n}\n```\n\n### What you get back:\n- `data` - The fetched data (or null if loading/error)\n- `loading` - true while fetching\n- `error` - Error object if something went wrong\n- `refetch` - Function to fetch again"
+    },
+    {
+      "title": "Using Data in Components",
+      "file": "src/components/pages/Home/Home.tsx",
+      "line": 208,
+      "description": "## Using Data in the Home Page\n\nHere's how we use the hook in a real component:\n\n```typescript\nfunction Home() {\n  // Fetch homestays\n  const {\n    data: homestaysResponse,\n    loading: homestaysLoading,\n    error: homestaysError\n  } = useApi(\n    () => homestaysService.getAll({ limit: 4 })\n  );\n  \n  // Handle loading state\n  if (homestaysLoading) {\n    return <Skeleton />;\n  }\n  \n  // Handle error state\n  if (homestaysError) {\n    return <p>Failed to load homestays</p>;\n  }\n  \n  // Show the data!\n  return (\n    <ListingGrid listings={homestaysResponse.data} />\n  );\n}\n```\n\n### The three states:\n1. **Loading** - Show a skeleton/spinner\n2. **Error** - Show error message or fallback data\n3. **Success** - Show the actual data"
+    },
+    {
+      "title": "Fallback Data",
+      "file": "src/components/pages/Home/Home.tsx",
+      "line": 218,
+      "description": "## Graceful Fallbacks\n\nWhat if the server is down? We use **fallback data**.\n\n```typescript\nconst featuredHomestays = useMemo(() => {\n  // If API failed, use fallback\n  if (homestaysError || !homestaysResponse?.data) {\n    return fallbackHomestays;  // Hardcoded sample data\n  }\n  \n  // Otherwise, use real data\n  return homestaysResponse.data.slice(0, 4);\n}, [homestaysResponse, homestaysError]);\n```\n\n### Why fallbacks?\n- **Better user experience** - Users see something instead of an error\n- **Development** - Work offline with sample data\n- **Reliability** - App doesn't crash if API is slow\n\n### Types of fallbacks:\n- Sample data (shown above)\n- Cached data from previous visit\n- Empty state message"
+    },
+    {
+      "title": "Mock Server: Fake API for Development",
+      "file": "src/mocks/homestays.json",
+      "line": 1,
+      "description": "## Mock Server: Developing Without a Real Backend\n\nOur real backend isn't ready yet. So we use a **mock server** (fake API).\n\n### What's in the mock files?\nSample data that matches what the real API will return:\n\n```json\n[\n  {\n    \"id\": \"1\",\n    \"title\": \"Forest Haven Homestay\",\n    \"location\": \"Netarhat, Jharkhand\",\n    \"price\": 2500,\n    \"rating\": 4.8,\n    \"images\": [\"https://example.com/image.jpg\"]\n  },\n  ...\n]\n```\n\n### How it works:\n1. We use **Postman Mock Server** (a free tool)\n2. Upload our JSON files to Postman\n3. Postman gives us a URL that returns our data\n4. Our app uses that URL\n\n### When real backend is ready:\nJust change the server URL in `.env`. No code changes!"
+    },
+    {
+      "title": "Type Definitions",
+      "file": "src/types/api.types.ts",
+      "line": 5,
+      "description": "## TypeScript Types for API Data\n\nWe define **types** to describe what data looks like:\n\n```typescript\ninterface Homestay {\n  id: string;\n  title: string;\n  description: string;\n  location: string;\n  district: string;\n  price: number;\n  rating: number;\n  reviewCount: number;\n  images: string[];\n  amenities: string[];\n}\n```\n\n### Why types matter:\n\n**Autocomplete:**\nYour editor suggests valid properties:\n```typescript\nhomestay.    // Shows: id, title, price, rating, etc.\n```\n\n**Error prevention:**\n```typescript\nhomestay.prce  // Error! Did you mean 'price'?\n```\n\n**Documentation:**\nTypes tell developers what data exists without reading the backend code."
+    },
+    {
+      "title": "API Response Wrapper",
+      "file": "src/types/api.types.ts",
+      "line": 5,
+      "description": "## Standard Response Format\n\nAll our API responses follow a consistent structure:\n\n```typescript\ninterface ApiResponse<T> {\n  data: T;           // The actual data\n  meta?: {           // Extra info (for lists)\n    total: number;       // Total items available\n    page: number;        // Current page\n    limit: number;       // Items per page\n    totalPages: number;  // Total pages\n  };\n}\n```\n\n### Example response:\n```json\n{\n  \"data\": [\n    { \"id\": \"1\", \"title\": \"Forest Haven\" },\n    { \"id\": \"2\", \"title\": \"Mountain View\" }\n  ],\n  \"meta\": {\n    \"total\": 50,\n    \"page\": 1,\n    \"limit\": 10,\n    \"totalPages\": 5\n  }\n}\n```\n\n### Why wrap data?\n- Consistent structure across all endpoints\n- Pagination info for lists\n- Room for error messages if needed"
+    },
+    {
+      "title": "Error Handling",
+      "file": "src/services/api.ts",
+      "line": 17,
+      "description": "## Handling Errors\n\nThings can go wrong! We handle errors in one central place.\n\n### Common errors:\n\n| Status | Meaning | What we do |\n|--------|---------|------------|\n| 401 | Not logged in | Redirect to login |\n| 404 | Not found | Show \"not found\" page |\n| 500 | Server error | Show error message |\n| Timeout | Server too slow | Retry or show error |\n\n### Error interceptor:\n```typescript\napi.interceptors.response.use(\n  (response) => response,  // Success - pass through\n  (error) => {\n    if (error.response?.status === 401) {\n      // User needs to login\n      window.location.href = '/login';\n    }\n    if (error.response?.status === 404) {\n      // Resource doesn't exist\n    }\n    return Promise.reject(error);  // Let component handle it\n  }\n);\n```"
+    },
+    {
+      "title": "📋 To Do: Create a New Service",
+      "file": "src/services/api.ts",
+      "line": 1,
+      "description": "## 📋 To Do: Create a New Service\n\nLet's practice by creating a `bookingsService` to manage reservations.\n\n---\n\n### Step 1: Define the Types\nAdd to `src/types/api.types.ts`:\n```typescript\nexport interface Booking {\n  id: string;\n  homestayId: string;\n  userId: string;\n  checkIn: string;\n  checkOut: string;\n  guests: number;\n  totalPrice: number;\n  status: 'pending' | 'confirmed' | 'cancelled';\n  createdAt: string;\n}\n\nexport interface CreateBookingPayload {\n  homestayId: string;\n  checkIn: string;\n  checkOut: string;\n  guests: number;\n}\n```\n\n### Step 2: Create the Service\nCreate `src/services/bookings.service.ts`:\n```typescript\nimport { api } from './api';\nimport { ApiResponse, Booking, CreateBookingPayload } from '../types/api.types';\n\nexport const bookingsService = {\n  // Get all bookings for current user\n  getMyBookings: async (): Promise<ApiResponse<Booking[]>> => {\n    const response = await api.get<ApiResponse<Booking[]>>('/bookings');\n    return response.data;\n  },\n\n  // Get a specific booking\n  getById: async (id: string): Promise<ApiResponse<Booking>> => {\n    const response = await api.get<ApiResponse<Booking>>(`/bookings/${id}`);\n    return response.data;\n  },\n\n  // Create a new booking\n  create: async (data: CreateBookingPayload): Promise<ApiResponse<Booking>> => {\n    const response = await api.post<ApiResponse<Booking>>('/bookings', data);\n    return response.data;\n  },\n\n  // Cancel a booking\n  cancel: async (id: string): Promise<ApiResponse<Booking>> => {\n    const response = await api.patch<ApiResponse<Booking>>(\n      `/bookings/${id}`,\n      { status: 'cancelled' }\n    );\n    return response.data;\n  },\n};\n```\n\n### Step 3: Use in a Component\n```typescript\nimport { useApi } from '../hooks/useApi';\nimport { bookingsService } from '../services/bookings.service';\n\nfunction MyBookings() {\n  const { data, loading, error } = useApi(\n    () => bookingsService.getMyBookings()\n  );\n\n  if (loading) return <Skeleton />;\n  if (error) return <p>Failed to load bookings</p>;\n\n  return (\n    <div>\n      {data?.data.map(booking => (\n        <BookingCard key={booking.id} booking={booking} />\n      ))}\n    </div>\n  );\n}\n```\n\n### Step 4: Export the Service\nAdd to `src/services/index.ts`:\n```typescript\nexport { bookingsService } from './bookings.service';\n```\n\n---\n\n## ⚠️ Watch Out For\n\n| Issue | Cause | Solution |\n|-------|-------|----------|\n| CORS errors | Backend not configured | Check API URL or use proxy |\n| 401 Unauthorized | Not logged in | Add auth token to requests |\n| Data is undefined | Wrong response structure | Check `response.data.data` |\n| Type errors | Missing interface | Define all response types |\n\n---\n\n## ❌ Common Errors\n\n| Error Message | What It Means | How to Fix |\n|---------------|---------------|------------|\n| `Network Error` | Server not running | Start the backend or mock server |\n| `api.get is not a function` | Wrong import | Import `api` from './api' |\n| `Property 'data' does not exist` | Wrong type | Check ApiResponse wrapper |\n| `422 Unprocessable Entity` | Invalid payload | Check required fields |\n\n---\n\n### ✅ Checklist\n- [ ] Defined Booking type in api.types.ts\n- [ ] Defined CreateBookingPayload type\n- [ ] Created bookings.service.ts\n- [ ] Implemented getMyBookings, getById, create, cancel\n- [ ] Used proper TypeScript generics\n- [ ] Exported from services/index.ts\n- [ ] Tested with useApi hook in a component\n- [ ] Added mock data for testing (optional)"
+    },
+    {
+      "title": "Summary: Data Flow",
+      "file": "src/services/api.ts",
+      "line": 1,
+      "description": "## The Complete Data Journey\n\nLet's trace what happens when the Home page loads:\n\n```\n1. User visits homepage\n         ↓\n2. Home component renders\n         ↓\n3. useApi hook starts fetching\n         ↓\n4. homestaysService.getAll() is called\n         ↓\n5. Axios makes HTTP GET request\n         ↓\n6. Server returns JSON data\n         ↓\n7. Service normalizes the data\n         ↓\n8. useApi updates: loading → false, data → homestays\n         ↓\n9. React re-renders with the data\n         ↓\n10. User sees the homestay listings!\n```\n\n### Key files:\n- `src/services/api.ts` - Axios setup\n- `src/services/homestays.service.ts` - API methods\n- `src/hooks/useApi.ts` - Fetch with loading/error\n- `src/types/api.types.ts` - Data shapes\n\n---\n\n**Tour Complete!**\n\nNext: Take the **\"07 - Git Workflow\"** tour to learn about version control and contributing to the project!"
+    }
+  ]
+}

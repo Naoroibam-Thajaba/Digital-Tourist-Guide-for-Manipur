@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { Event, Emergency, Transport, Listing } from '../models/index.js';
+const router=Router();
+router.get('/events',async(req,res)=>{const filter={};if(req.query.district)filter.district=new RegExp(req.query.district,'i');res.json({data:await Event.find(filter).sort({startDate:1})})});
+router.get('/emergency',async(req,res)=>{const filter=req.query.type?{type:new RegExp(req.query.type,'i')}:{ };res.json({data:await Emergency.find(filter)})});
+router.get('/transport',async(req,res)=>{const filter={};if(req.query.from)filter.from=new RegExp(req.query.from,'i');if(req.query.to)filter.to=new RegExp(req.query.to,'i');res.json({data:await Transport.find(filter)})});
+router.get('/maps',async(req,res)=>{const q=req.query.q;const filter=q?{$or:[{title:new RegExp(q,'i')},{location:new RegExp(q,'i')},{district:new RegExp(q,'i')}] }:{};const data=await Listing.find(filter).select('title type location district coordinates rating').limit(100);res.json({data})});
+router.get('/search',async(req,res)=>{const q=req.query.q||'';const re=new RegExp(q,'i');const data=await Listing.find({$or:[{title:re},{description:re},{location:re},{district:re},{tags:re}]}).limit(Number(req.query.limit||20)).lean();res.json({data:data.map(x=>({...x,kind:x.type})) ,meta:{total:data.length,page:1,limit:data.length,totalPages:1}})});
+router.get('/search/suggestions',async(req,res)=>{const q=req.query.q||'';const re=new RegExp(q,'i');const rows=await Listing.find({$or:[{title:re},{district:re},{location:re}]}).select('title district location').limit(10);const out=[...new Set(rows.flatMap(x=>[x.title,x.district,x.location]).filter(Boolean))];res.json({data:out})});
+export default router;

@@ -1,0 +1,267 @@
+{
+  "data": [
+    {
+      "id": "hs-001",
+      "title": "Peaceful Cottage in Netarhat",
+      "description": "A serene cottage nestled in the hills of Netarhat, offering breathtaking views of the sunrise. Perfect for nature lovers seeking tranquility.",
+      "location": "Netarhat, Latehar",
+      "district": "Latehar",
+      "price": 2500,
+      "rating": 4.8,
+      "reviewCount": 124,
+      "images": [
+        "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800",
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800"
+      ],
+      "amenities": ["wifi", "parking", "kitchen", "heating", "garden"],
+      "hostId": "host-001",
+      "hostName": "Ramesh Kumar",
+      "hostAvatar": "https://randomuser.me/api/portraits/men/1.jpg",
+      "capacity": {
+        "guests": 4,
+        "bedrooms": 2,
+        "beds": 2,
+        "bathrooms": 1
+      },
+      "propertyType": "entire",
+      "minStay": 1,
+      "maxStay": 14,
+      "houseRules": ["No smoking", "No pets", "Quiet hours after 10 PM"],
+      "coordinates": {
+        "lat": 23.4847,
+        "lng": 84.3732
+      }
+    },
+    {
+      "id": "hs-002",
+      "title": "Tribal Heritage Homestay",
+      "description": "Experience authentic tribal culture in this traditional Santhali home. Enjoy local cuisine, folk music, and warm hospitality.",
+      "location": "Rajmahal, Godda",
+      "district": "Godda",
+      "price": 1800,
+      "rating": 4.9,
+      "reviewCount": 89,
+      "images": [
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800"
+      ],
+      "amenities": ["parking", "kitchen", "garden", "cultural-activities"],
+      "hostId": "host-002",
+      "hostName": "Sita Devi Murmu",
+      "hostAvatar": "https://randomuser.me/api/portraits/women/2.jpg",
+      "capacity": {
+        "guests": 6,
+        "bedrooms": 3,
+        "beds": 4,
+        "bathrooms": 2
+      },
+      "propertyType": "entire",
+      "minStay": 2,
+      "maxStay": 7,
+      "houseRules": ["Respect local customs", "No alcohol", "Photography with permission"],
+      "coordinates": {
+        "lat": 25.0533,
+        "lng": 87.8400
+      }
+    },
+    {
+      "id": "hs-003",
+      "title": "Forest Edge Retreat near Betla",
+      "description": "Stay at the edge of Betla National Park and wake up to the sounds of wildlife. Perfect base for jungle safaris.",
+      "location": "Betla, Latehar",
+      "district": "Latehar",
+      "price": 3500,
+      "rating": 4.7,
+      "reviewCount": 156,
+      "images": [
+        "https://images.unsplash.com/photo-1587061949409-02df41d5e562?w=800",
+        "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800"
+      ],
+      "amenities": ["wifi", "parking", "kitchen", "ac", "wildlife-viewing"],
+      "hostId": "host-003",
+      "hostName": "Sunil Oraon",
+      "hostAvatar": "https://randomuser.me/api/portraits/men/3.jpg",
+      "capacity": {
+        "guests": 4,
+        "bedrooms": 2,
+        "beds": 2,
+        "bathrooms": 2
+      },
+      "propertyType": "entire",
+      "minStay": 1,
+      "maxStay": 10,
+      "houseRules": ["No loud music after sunset", "No feeding wildlife", "Follow park rules"],
+      "coordinates": {
+        "lat": 23.7667,
+        "lng": 84.2500
+      }
+    },
+    {
+      "id": "hs-004",
+      "title": "Waterfall View Villa",
+      "description": "A beautiful villa with stunning views of Hundru Falls. Perfect for family vacations and romantic getaways.",
+      "location": "Hundru Falls, Ranchi",
+      "district": "Ranchi",
+      "price": 4200,
+      "rating": 4.6,
+      "reviewCount": 78,
+      "images": [
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800"
+      ],
+      "amenities": ["wifi", "parking", "kitchen", "ac", "swimming-pool", "waterfall-view"],
+      "hostId": "host-004",
+      "hostName": "Priya Singh",
+      "hostAvatar": "https://randomuser.me/api/portraits/women/4.jpg",
+      "capacity": {
+        "guests": 8,
+        "bedrooms": 4,
+        "beds": 5,
+        "bathrooms": 3
+      },
+      "propertyType": "entire",
+      "minStay": 2,
+      "maxStay": 14,
+      "houseRules": ["No parties", "Pet-friendly", "Check-in after 2 PM"],
+      "coordinates": {
+        "lat": 23.3600,
+        "lng": 85.3900
+      }
+    },
+    {
+      "id": "hs-005",
+      "title": "Lakeside Cottage at Patratu",
+      "description": "Charming cottage overlooking Patratu Valley Lake. Enjoy boating, fishing, and spectacular sunsets.",
+      "location": "Patratu, Ramgarh",
+      "district": "Ramgarh",
+      "price": 2800,
+      "rating": 4.5,
+      "reviewCount": 92,
+      "images": [
+        "https://images.unsplash.com/photo-1505916349660-8d91a99c3e23?w=800",
+        "https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800"
+      ],
+      "amenities": ["wifi", "parking", "kitchen", "lake-access", "boating"],
+      "hostId": "host-005",
+      "hostName": "Vikram Mahto",
+      "hostAvatar": "https://randomuser.me/api/portraits/men/5.jpg",
+      "capacity": {
+        "guests": 5,
+        "bedrooms": 2,
+        "beds": 3,
+        "bathrooms": 1
+      },
+      "propertyType": "entire",
+      "minStay": 1,
+      "maxStay": 7,
+      "houseRules": ["Swimming at own risk", "Quiet hours after 9 PM", "No campfires"],
+      "coordinates": {
+        "lat": 23.6700,
+        "lng": 85.2800
+      }
+    },
+    {
+      "id": "hs-006",
+      "title": "Temple Town Stay in Deoghar",
+      "description": "Comfortable homestay near Baidyanath Temple. Ideal for pilgrims and spiritual seekers.",
+      "location": "Deoghar",
+      "district": "Deoghar",
+      "price": 1500,
+      "rating": 4.4,
+      "reviewCount": 203,
+      "images": [
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+        "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800"
+      ],
+      "amenities": ["wifi", "ac", "kitchen", "temple-proximity"],
+      "hostId": "host-006",
+      "hostName": "Meera Sharma",
+      "hostAvatar": "https://randomuser.me/api/portraits/women/6.jpg",
+      "capacity": {
+        "guests": 4,
+        "bedrooms": 2,
+        "beds": 2,
+        "bathrooms": 1
+      },
+      "propertyType": "private",
+      "minStay": 1,
+      "maxStay": 5,
+      "houseRules": ["Vegetarian food only", "No alcohol", "Respect religious sentiments"],
+      "coordinates": {
+        "lat": 24.4851,
+        "lng": 86.6948
+      }
+    },
+    {
+      "id": "hs-007",
+      "title": "Hill Top Farm Stay",
+      "description": "Organic farm stay on a hilltop with panoramic views. Experience rural life with farm-to-table meals.",
+      "location": "Hazaribagh",
+      "district": "Hazaribagh",
+      "price": 2200,
+      "rating": 4.8,
+      "reviewCount": 67,
+      "images": [
+        "https://images.unsplash.com/photo-1595521624992-48a59aef95e3?w=800",
+        "https://images.unsplash.com/photo-1581888227599-779811939961?w=800"
+      ],
+      "amenities": ["parking", "kitchen", "garden", "farm-activities", "organic-food"],
+      "hostId": "host-007",
+      "hostName": "Rajendra Prasad",
+      "hostAvatar": "https://randomuser.me/api/portraits/men/7.jpg",
+      "capacity": {
+        "guests": 6,
+        "bedrooms": 3,
+        "beds": 4,
+        "bathrooms": 2
+      },
+      "propertyType": "entire",
+      "minStay": 2,
+      "maxStay": 10,
+      "houseRules": ["Eco-friendly practices", "No plastic", "Participate in farm activities"],
+      "coordinates": {
+        "lat": 23.9900,
+        "lng": 85.3618
+      }
+    },
+    {
+      "id": "hs-008",
+      "title": "Colonial Bungalow in Ranchi",
+      "description": "Historic colonial-era bungalow with modern amenities. Perfect blend of heritage and comfort.",
+      "location": "Ranchi Cantonment, Ranchi",
+      "district": "Ranchi",
+      "price": 5500,
+      "rating": 4.9,
+      "reviewCount": 45,
+      "images": [
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800"
+      ],
+      "amenities": ["wifi", "parking", "kitchen", "ac", "garden", "heritage"],
+      "hostId": "host-008",
+      "hostName": "Dr. Anjali Roy",
+      "hostAvatar": "https://randomuser.me/api/portraits/women/8.jpg",
+      "capacity": {
+        "guests": 10,
+        "bedrooms": 5,
+        "beds": 6,
+        "bathrooms": 4
+      },
+      "propertyType": "entire",
+      "minStay": 2,
+      "maxStay": 14,
+      "houseRules": ["No events without permission", "Shoes off indoors", "Respect antiques"],
+      "coordinates": {
+        "lat": 23.3441,
+        "lng": 85.3096
+      }
+    }
+  ],
+  "meta": {
+    "total": 8,
+    "page": 1,
+    "limit": 10,
+    "totalPages": 1
+  }
+}
