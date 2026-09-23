@@ -7,6 +7,40 @@ const router = Router();
 
 router.use(auth);
 
+const bookableTypes = [
+  'hotel',
+  'homestay',
+  'guide',
+  'adventure',
+  'transport'
+];
+
+// Calculate the expected booking amount on the server
+function calculateAmount(listing, start, end) {
+  const millisecondsPerDay = 1000 * 60 * 60 * 24;
+  const days = Math.ceil(
+    (end.getTime() - start.getTime()) / millisecondsPerDay
+  );
+
+  if (listing.type === 'hotel' || listing.type === 'homestay') {
+    return Number(listing.price || 0) * days;
+  }
+
+  if (listing.type === 'guide') {
+    return Number(listing.pricePerDay || 0) * days;
+  }
+
+  if (listing.type === 'adventure') {
+    return Number(listing.price || 0);
+  }
+
+  if (listing.type === 'transport') {
+    return Number(listing.price || 0);
+  }
+
+  return 0;
+}
+
 // Get current user's bookings
 router.get('/', async (req, res) => {
   try {
@@ -18,15 +52,20 @@ router.get('/', async (req, res) => {
 
     res.json({ data: bookings });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch bookings' });
+    console.error(err);
+    res.status(500).json({
+      message: 'Failed to fetch bookings'
+    });
   }
 });
 
-// Get one booking belonging to current user
+// Get one booking
 router.get('/:id', async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
-      return res.status(400).json({ message: 'Invalid booking ID' });
+      return res.status(400).json({
+        message: 'Invalid booking ID'
+      });
     }
 
     const booking = await Booking.findOne({
@@ -35,12 +74,16 @@ router.get('/:id', async (req, res) => {
     }).populate('listingId');
 
     if (!booking) {
-      return res.status(404).json({ message: 'Booking not found' });
+      return res.status(404).json({
+        message: 'Booking not found'
+      });
     }
 
     res.json({ data: booking });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch booking' });
+    res.status(500).json({
+      message: 'Failed to fetch booking'
+    });
   }
 });
 
@@ -52,19 +95,18 @@ router.post('/', async (req, res) => {
       startDate,
       endDate,
       guests,
-      amount,
       paymentMethod,
       notes
     } = req.body;
 
-    // Validate listing ID
+    // Listing ID
     if (!mongoose.isValidObjectId(listingId)) {
       return res.status(400).json({
         message: 'Invalid listing ID'
       });
     }
 
-    // Required dates
+    // Dates required
     if (!startDate || !endDate) {
       return res.status(400).json({
         message: 'Start date and end date are required'
@@ -74,34 +116,36 @@ router.post('/', async (req, res) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
 
-    // Validate dates
+    // Valid dates
     if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
       return res.status(400).json({
         message: 'Invalid booking dates'
       });
     }
 
+    // Date range
     if (end <= start) {
       return res.status(400).json({
         message: 'End date must be after start date'
       });
     }
 
-    // Validate guests
+    // Reject bookings in the past
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (start < today) {
+      return res.status(400).json({
+        message: 'Start date cannot be in the past'
+      });
+    }
+
+    // Guests
     const guestCount = Number(guests);
 
     if (!Number.isInteger(guestCount) || guestCount < 1) {
       return res.status(400).json({
         message: 'Guests must be at least 1'
-      });
-    }
-
-    // Validate amount
-    const bookingAmount = Number(amount);
-
-    if (!Number.isFinite(bookingAmount) || bookingAmount < 0) {
-      return res.status(400).json({
-        message: 'Amount must be a valid non-negative number'
       });
     }
 
@@ -114,28 +158,47 @@ router.post('/', async (req, res) => {
       });
     }
 
-    // Only these listing types can currently be booked
-    const bookableTypes = [
-      'hotel',
-      'homestay',
-      'guide',
-      'adventure',
-      'transport'
-    ];
-
+    // Bookable listing types
     if (!bookableTypes.includes(listing.type)) {
       return res.status(400).json({
         message: `${listing.type} listings cannot be booked`
       });
     }
 
-    // Capacity check where capacity is defined
+    // Capacity
     if (
       listing.capacity?.guests &&
       guestCount > listing.capacity.guests
     ) {
       return res.status(400).json({
         message: `Maximum capacity is ${listing.capacity.guests} guests`
+      });
+    }
+
+    // Check overlapping bookings
+    const overlappingBooking = await Booking.findOne({
+      listingId: listing._id,
+      status: { $in: ['pending', 'confirmed'] },
+      startDate: { $lt: end },
+      endDate: { $gt: start }
+    });
+
+    if (overlappingBooking) {
+      return res.status(409).json({
+        message: 'This listing is already booked for the selected dates'
+      });
+    }
+
+    // Calculate price on the server
+    const calculatedAmount = calculateAmount(
+      listing,
+      start,
+      end
+    );
+
+    if (!Number.isFinite(calculatedAmount) || calculatedAmount < 0) {
+      return res.status(400).json({
+        message: 'Unable to calculate booking amount'
       });
     }
 
@@ -146,12 +209,14 @@ router.post('/', async (req, res) => {
       startDate: start,
       endDate: end,
       guests: guestCount,
-      amount: bookingAmount,
+      amount: calculatedAmount,
       paymentMethod,
       notes
     });
 
-    res.status(201).json({ data: booking });
+    res.status(201).json({
+      data: booking
+    });
 
   } catch (err) {
     console.error('Booking creation error:', err);
@@ -202,9 +267,13 @@ router.put('/:id/cancel', async (req, res) => {
 
     await booking.save();
 
-    res.json({ data: booking });
+    res.json({
+      data: booking
+    });
 
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
       message: 'Failed to cancel booking'
     });
@@ -237,6 +306,12 @@ router.post('/:id/pay', async (req, res) => {
       });
     }
 
+    if (booking.status === 'completed') {
+      return res.status(400).json({
+        message: 'Completed bookings cannot be paid'
+      });
+    }
+
     if (booking.paymentStatus === 'paid') {
       return res.status(400).json({
         message: 'Booking is already paid'
@@ -255,10 +330,12 @@ router.post('/:id/pay', async (req, res) => {
     });
 
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
       message: 'Payment failed'
     });
   }
 });
 
-export default router;
+export default router; 
