@@ -26,7 +26,7 @@ export const Navbar = ({
 	const navLinks = [
 		{ label: 'Homestays', href: '/homestays', icon: 'cottage', implemented: true },
 		{ label: 'Guides', href: '/guides', icon: 'person', implemented: false },
-		{ label: 'Marketplace', href: '/marketplace', icon: 'storefront', implemented: false },
+		{ label: 'Marketplace', href: '/marketplace', icon: 'storefront', implemented: true },
 	];
 
 	// User dropdown links

@@ -23,6 +23,30 @@ const transformHomestay = (homestay: Homestay): Omit<ListingCardProps, 'isSaved'
 	period: 'per night',
 });
 
+const localHomestayGuides = [
+	{
+		title: 'Floating Homestay on Loktak Lake',
+		location: 'Moirang, Manipur',
+		description: 'Read about staying on a phumdi, travelling by boat, and experiencing life around the Jewel of Manipur.',
+		image: 'https://i0.wp.com/buoyantlifestyles.com/wp-content/uploads/2025/05/IMG_6469-scaled-e1748024394225.jpeg?resize=960%2C1002&ssl=1',
+		url: 'https://buoyantlifestyles.com/exploring-loktak-lake-in-manipur-from-a-floating-homestay',
+	},
+	{
+		title: 'Manipur Homestay Directory',
+		location: 'Across Manipur',
+		description: 'Browse an external collection of homestay options and direct booking information for a Manipur trip.',
+		image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800&h=600&fit=crop',
+		url: 'https://bookmyhomestay.com/page/manipur',
+	},
+	{
+		title: 'Top Homestays in Imphal',
+		location: 'Imphal, Manipur',
+		description: 'Compare traveller-picked stays in Imphal, including local homes, gardens, amenities, and access to the city.',
+		image: 'https://wanderon-images.gumlet.io/blogs/new/2024/06/homestays-in-imphal.jpg?auto=compress%2Cformat&w=800',
+		url: 'https://wanderon.in/blogs/homestays-in-imphal',
+	},
+];
+
 /**
  * Homestays page component for browsing homestay listings
  */
@@ -81,10 +105,10 @@ export const Homestays = ({
 					<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 						<div>
 							<h1 className="font-heading text-2xl md:text-3xl font-bold">
-								Homestays in Jharkhand
+								Homestays in Manipur
 							</h1>
 							<p className="text-base-content/60 mt-1">
-								{loading ? 'Loading...' : `${totalCount} authentic tribal homestays`}
+									{loading ? 'Loading...' : `${totalCount} authentic Manipuri homestays`}
 							</p>
 						</div>
 
@@ -206,6 +230,44 @@ export const Homestays = ({
 						)}
 					</div>
 				</div>
+
+				<section className="mt-12" aria-labelledby="local-homestay-guides-title">
+					<div className="mb-6">
+						<h2 id="local-homestay-guides-title" className="font-heading text-2xl md:text-3xl font-bold">
+							Local homestay guides
+						</h2>
+						<p className="text-base-content/60 mt-1 max-w-2xl">
+							Explore local stays and booking ideas from trusted travel and homestay resources.
+						</p>
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+						{localHomestayGuides.map((guide) => (
+							<article key={guide.url} className="card bg-base-100 shadow-sm overflow-hidden">
+								<figure className="aspect-[16/10]">
+									<img src={guide.image} alt={guide.title} loading="lazy" className="w-full h-full object-cover" />
+								</figure>
+								<div className="card-body p-5">
+									<p className="text-sm text-primary font-medium">{guide.location}</p>
+									<h3 className="card-title text-lg">{guide.title}</h3>
+									<p className="text-sm text-base-content/70">{guide.description}</p>
+									<Button
+										as="a"
+										href={guide.url}
+										target="_blank"
+										rel="noreferrer"
+										style="outline"
+										size="sm"
+										className="mt-2 w-fit"
+									>
+										<Icon name="open_in_new" size="sm" />
+										View guide
+									</Button>
+								</div>
+							</article>
+						))}
+					</div>
+				</section>
 			</div>
 
 			{/* Mobile Filter Drawer */}

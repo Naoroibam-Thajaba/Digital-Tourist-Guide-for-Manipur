@@ -74,22 +74,21 @@ export const defaultFilterState: FilterState = {
 	categories: [],
 };
 
-// Jharkhand districts
+// Manipur districts and popular travel areas
 export const districts = [
 	'All Districts',
-	'Ranchi',
-	'Jamshedpur',
-	'Dhanbad',
-	'Bokaro',
-	'Hazaribagh',
-	'Deoghar',
-	'Giridih',
-	'Dumka',
-	'Chaibasa',
-	'Palamu',
-	'Lohardaga',
-	'Netarhat',
-	'Betla',
+	'Imphal East',
+	'Imphal West',
+	'Bishnupur',
+	'Churachandpur',
+	'Ukhrul',
+	'Senapati',
+	'Tamenglong',
+	'Thoubal',
+	'Kangpokpi',
+	'Kakching',
+	'Loktak',
+	'Kangla',
 ];
 
 // Homestay amenities
